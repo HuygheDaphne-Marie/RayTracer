@@ -1,6 +1,6 @@
 #include "DirectionalLight.h"
 
-RGBColor DirectionalLight::LightAtPoint(const FPoint3& point) const
+RGBColor DirectionalLight::CalculateIrradiance(const FPoint3& point) const
 {
 	return m_Color * m_LightIntensity;
 }

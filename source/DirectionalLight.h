@@ -9,7 +9,7 @@ public:
 	{
 	}
 
-	RGBColor LightAtPoint(const FPoint3& point) const override;
+	RGBColor CalculateIrradiance(const FPoint3& point) const override;
 	FVector3 GetDirection(const FPoint3& to) const override;
 
 private:

@@ -52,23 +52,47 @@ void Elite::Renderer::Render(PerspectiveCamera* pCamera)
 			hitRecord.t = ray.tMax;
 
 			// Transform
-			Elite::FPoint4 pos = pCamera->GetLookAtMatrix() * FPoint4{ ray.origin.x, ray.origin.y, -1, 1 };
+			FPoint4 pos = pCamera->GetLookAtMatrix() * FPoint4{ ray.origin.x, ray.origin.y, -1, 1 };
 			ray.origin.x = pos.x;
 			ray.origin.y = pos.y;
 			ray.origin.z = pos.z;
 
 			// Get Direction
 			ray.direction = ray.origin - camPos;
-			Elite::Normalize(ray.direction);
+			Normalize(ray.direction);
 
 			if (pActiveScene != nullptr)
 			{
 				if (pActiveScene->Hit(ray, hitRecord))
 				{
-					m_pBackBufferPixels[c + (r * m_Width)] = SDL_MapRGB(m_pBackBuffer->format,
+					/*m_pBackBufferPixels[c + (r * m_Width)] = SDL_MapRGB(m_pBackBuffer->format,
 						static_cast<uint8_t>(hitRecord.color.r * 255.f),
 						static_cast<uint8_t>(hitRecord.color.g * 255.f),
-						static_cast<uint8_t>(hitRecord.color.b * 255.f));
+						static_cast<uint8_t>(hitRecord.color.b * 255.f));*/
+
+					// for each light
+						// get irradiance of the light at the point hit
+						// add up all irradiance (maxToOne them)
+						// add the color of the object
+
+					
+					const FPoint3 tPoint = ray.origin + ray.direction * hitRecord.t;
+					RGBColor totalIrradiance{};
+					for (Light* light : pActiveScene->GetLights())
+					{
+						totalIrradiance += light->CalculateIrradiance(tPoint);
+					}
+					//totalIrradiance.MaxToOne();
+
+					// TODO: FIX
+					// Hitpoint is likely wrong
+					// intensity needs to be WAYYYY up and even then the plane never seems to get lit
+					
+					m_pBackBufferPixels[c + (r * m_Width)] = SDL_MapRGB(m_pBackBuffer->format,
+						static_cast<uint8_t>(totalIrradiance.r * 255.f),
+						static_cast<uint8_t>(totalIrradiance.g * 255.f),
+						static_cast<uint8_t>(totalIrradiance.b * 255.f));
+					
 				}
 				else
 				{

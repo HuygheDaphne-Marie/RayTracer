@@ -15,6 +15,7 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "PerspectiveCamera.h"
+#include "PointLight.h"
 
 void ShutDown(SDL_Window* pWindow)
 {
@@ -51,9 +52,10 @@ int main(int argc, char* args[])
 
 	//Initialize Scenes
 	SCENEMANAGER->AddScene(new Scene());
-	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(Elite::FPoint3{ -25, 0, -100 }, Elite::RGBColor{ 1,0,0 }, 50.f));
-	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(Elite::FPoint3{ 25, 0, -100 }, Elite::RGBColor{ 0,0,1 }, 50.f));
-	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Plane(Elite::FPoint3{ 0, -200, 0 }, Elite::FVector3{ 0, 1, 0}));
+	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ -25, 0, -100 }, RGBColor{ 1,0,0 }, 50.f));
+	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ 25, 0, -100 }, RGBColor{ 0,0,1 }, 50.f));
+	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Plane(FPoint3{ 0, -200, 0 }, FVector3{ 0, 1, 0}));
+	SCENEMANAGER->GetActiveScene()->AddLightToScene(new PointLight(FPoint3{ 0, 125, -150 }, RGBColor{1,1,1}, 3000));
 
 	//Start loop
 	pTimer->Start();

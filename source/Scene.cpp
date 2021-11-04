@@ -11,23 +11,41 @@ Scene::~Scene()
 		delete pObject;
 		pObject = nullptr;
 	}
+
+	for (Light* pLight : m_pLights)
+	{
+		delete pLight;
+		pLight = nullptr;
+	}
 }
 
-void Scene::AddObjectToScene(Object* object)
+void Scene::AddObjectToScene(Object* pObject)
 {
-	if (object == nullptr)
+	if (pObject == nullptr)
 	{
 		return;
 	}
-	m_pObjects.push_back(object);
+	m_pObjects.push_back(pObject);
+}
+void Scene::AddLightToScene(Light* pLight)
+{
+	if (pLight == nullptr)
+	{
+		return;
+	}
+	m_pLights.push_back(pLight);
 }
 
 const std::vector<Object*>& Scene::GetObjects() const
 {
 	return m_pObjects;
 }
+const std::vector<Light*>& Scene::GetLights() const
+{
+	return m_pLights;
+}
 
-const bool Scene::Hit(const Ray& ray, HitRecord& hitRecord) const
+bool Scene::Hit(const Ray& ray, HitRecord& hitRecord) const
 {
 	bool hasHit{ false };
 	for (Object* pObject : GetObjects())

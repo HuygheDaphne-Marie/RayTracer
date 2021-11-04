@@ -11,7 +11,7 @@ float PointLight::CalculateIrradianceAtPoint(const FPoint3& point) const
 	return m_LightIntensity / SqrMagnitude(m_Position - point);
 }
 
-RGBColor PointLight::LightAtPoint(const FPoint3& point) const
+RGBColor PointLight::CalculateIrradiance(const FPoint3& point) const
 {
 	return m_Color * CalculateIrradianceAtPoint(point);
 }

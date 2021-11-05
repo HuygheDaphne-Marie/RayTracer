@@ -3,6 +3,7 @@
 Sphere::Sphere(const Elite::FPoint3& position, const Elite::RGBColor& color, float radius)
 	: Object(position, color)
 	, m_Radius{radius}
+	, m_InvertedRadius(1.f / radius) // so we don't keep recalculating this
 {
 }
 
@@ -27,6 +28,8 @@ bool Sphere::Hit(const Ray& ray, HitRecord& hitRecord) const
 	{
 		hitRecord.t = closest;
 		hitRecord.color = m_Color;
+		hitRecord.hitPoint = ray.origin + ray.direction * hitRecord.t;
+		hitRecord.normal = (hitRecord.hitPoint - m_Position) * m_InvertedRadius;
 		return true;
 	}
 
@@ -36,6 +39,7 @@ bool Sphere::Hit(const Ray& ray, HitRecord& hitRecord) const
 void Sphere::SetRadius(float radius)
 {
 	m_Radius = radius;
+	m_InvertedRadius = 1.f / radius;
 }
 float Sphere::GetRadius() const
 {

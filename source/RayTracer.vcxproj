@@ -77,6 +77,7 @@
   <ItemGroup>
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="PerspectiveCamera.h" />
     <ClInclude Include="EMath.h" />
     <ClInclude Include="EMathUtilities.h" />
@@ -107,6 +108,7 @@
   <ItemGroup>
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="PerspectiveCamera.cpp" />
     <ClCompile Include="ERenderer.cpp" />
     <ClCompile Include="ETimer.cpp" />

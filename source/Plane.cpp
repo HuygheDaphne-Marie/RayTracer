@@ -21,6 +21,8 @@ bool Plane::Hit(const Ray& ray, HitRecord& hitRecord) const
 	//{
 		hitRecord.t = t;
 		hitRecord.color = m_Color;
+		hitRecord.hitPoint = ray.origin + ray.direction * hitRecord.t;
+		hitRecord.normal = m_Normal;
 		return true;
 	//}
 	//return false;

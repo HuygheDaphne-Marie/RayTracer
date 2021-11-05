@@ -13,7 +13,8 @@ public:
 	void SetRadius(float radius);
 	float GetRadius() const;
 
-protected:
+private:
 	float m_Radius;
+	float m_InvertedRadius;
 };
 

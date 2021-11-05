@@ -65,29 +65,19 @@ void Elite::Renderer::Render(PerspectiveCamera* pCamera)
 			{
 				if (pActiveScene->Hit(ray, hitRecord))
 				{
-					/*m_pBackBufferPixels[c + (r * m_Width)] = SDL_MapRGB(m_pBackBuffer->format,
-						static_cast<uint8_t>(hitRecord.color.r * 255.f),
-						static_cast<uint8_t>(hitRecord.color.g * 255.f),
-						static_cast<uint8_t>(hitRecord.color.b * 255.f));*/
-
-					// for each light
-						// get irradiance of the light at the point hit
-						// add up all irradiance (maxToOne them)
-						// add the color of the object
-
-					
-					const FPoint3 tPoint = ray.origin + ray.direction * hitRecord.t;
 					RGBColor totalIrradiance{};
 					for (Light* light : pActiveScene->GetLights())
 					{
-						totalIrradiance += light->CalculateIrradiance(tPoint);
+						// TODO: which way is the direction supposed to point for a point light? to the point or to the light?
+						// Todo: I assume to the point, but then I need to -direction here for some reason, else my light in inverted
+						const float lambertCosineDot = Dot(hitRecord.normal, -light->GetDirection(hitRecord.hitPoint)); 
+						if (lambertCosineDot < 0)
+							continue;
+						
+						totalIrradiance += light->CalculateIrradiance(hitRecord.hitPoint) * hitRecord.color * lambertCosineDot;
 					}
-					//totalIrradiance.MaxToOne();
-
-					// TODO: FIX
-					// Hitpoint is likely wrong
-					// intensity needs to be WAYYYY up and even then the plane never seems to get lit
 					
+					totalIrradiance.MaxToOne();
 					m_pBackBufferPixels[c + (r * m_Width)] = SDL_MapRGB(m_pBackBuffer->format,
 						static_cast<uint8_t>(totalIrradiance.r * 255.f),
 						static_cast<uint8_t>(totalIrradiance.g * 255.f),

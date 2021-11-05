@@ -48,14 +48,16 @@ int main(int argc, char* args[])
 	Elite::Renderer* pRenderer = new Elite::Renderer(pWindow);
 
 	// Initialize Camera
-	PerspectiveCamera* pCamera = new PerspectiveCamera(float(width), float(height), 45.f, {0,0,200});
+	PerspectiveCamera* pCamera = new PerspectiveCamera(float(width), float(height), 45.f, {0,1,5});
 
 	//Initialize Scenes
 	SCENEMANAGER->AddScene(new Scene());
-	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ -25, 0, -100 }, RGBColor{ 1,0,0 }, 50.f));
-	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ 25, 0, -100 }, RGBColor{ 0,0,1 }, 50.f));
-	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Plane(FPoint3{ 0, -200, 0 }, FVector3{ 0, 1, 0}));
-	SCENEMANAGER->GetActiveScene()->AddLightToScene(new PointLight(FPoint3{ 0, 125, -150 }, RGBColor{1,1,1}, 3000));
+	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ -0.75, 1, 0 }, RGBColor{ 1,0,0 }, 1.f));
+	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ 0.75, 1, 0 }, RGBColor{ 0,0,1 }, 1.f));
+	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0}));
+	
+	SCENEMANAGER->GetActiveScene()->AddLightToScene(new PointLight(FPoint3{ 0, 5, -5 }, RGBColor{1,1,1}, 25));
+	SCENEMANAGER->GetActiveScene()->AddLightToScene(new PointLight(FPoint3{ 0, 2.5, 5 }, RGBColor{1,1,1}, 25));
 
 	//Start loop
 	pTimer->Start();

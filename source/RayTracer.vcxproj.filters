@@ -26,6 +26,9 @@
     <Filter Include="Lights">
       <UniqueIdentifier>{2dcd3753-f277-41d1-819e-ea9c0fc812fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Materials">
+      <UniqueIdentifier>{4a7e7340-3c66-416c-af25-6cb01882bfac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="RayTracer.props" />
@@ -115,6 +118,7 @@
     <ClInclude Include="DirectionalLight.h">
       <Filter>Lights</Filter>
     </ClInclude>
+    <ClInclude Include="Material.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ERenderer.cpp">
@@ -150,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="DirectionalLight.cpp">
       <Filter>Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

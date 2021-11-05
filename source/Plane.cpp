@@ -1,7 +1,7 @@
 #include "Plane.h"
 
-Plane::Plane(const Elite::FPoint3& position, const Elite::FVector3& normal, const Elite::RGBColor& color)
-	: Object(position, color)
+Plane::Plane(const Elite::FPoint3& position, const Elite::FVector3& normal, Material* pMaterial)
+	: Object(position, pMaterial)
 	, m_Normal{ Elite::GetNormalized(normal) }
 {
 }
@@ -20,7 +20,7 @@ bool Plane::Hit(const Ray& ray, HitRecord& hitRecord) const
 	//if (-0.0001f < dotResult || dotResult < 0.0001f)
 	//{
 		hitRecord.t = t;
-		hitRecord.color = m_Color;
+		hitRecord.pMaterial = m_pMaterial;
 		hitRecord.hitPoint = ray.origin + ray.direction * hitRecord.t;
 		hitRecord.normal = m_Normal;
 		return true;

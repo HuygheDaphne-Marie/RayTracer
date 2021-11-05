@@ -1,10 +1,11 @@
 #pragma once
 #include "Object.h"
-class Plane : public Object
+
+class Plane final : public Object
 {
 public:
-	Plane(const Elite::FPoint3& position, const Elite::FVector3& normal, const Elite::RGBColor& color = {1,1,0});
-	virtual ~Plane() = default;
+	Plane(const Elite::FPoint3& position, const Elite::FVector3& normal, Material* pMaterial);
+	~Plane() override = default;
 
 	virtual bool Hit(const Ray& ray, HitRecord& hitRecord) const override;
 

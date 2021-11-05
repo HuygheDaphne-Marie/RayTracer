@@ -1,11 +1,12 @@
 #pragma once
-#include "ERGBColor.h"
 #include "EMath.h"
+
+class Material;
 
 struct HitRecord
 {
 	float t{};
-	Elite::RGBColor color{};
+	Material* pMaterial{};
 	Elite::FPoint3 hitPoint{};
 	Elite::FVector3 normal{};
 };

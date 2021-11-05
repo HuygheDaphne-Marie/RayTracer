@@ -1,10 +1,15 @@
 #include "Object.h"
 
-Object::Object(const Elite::FPoint3& position, const Elite::RGBColor& color)
+Object::Object(const Elite::FPoint3& position, Material* pMaterial) //const Elite::RGBColor& color
 	: m_Position{position}
-	, m_Color{color}
+	, m_pMaterial(pMaterial)
 {
-	m_Color.MaxToOne();
+}
+
+Object::~Object()
+{
+	delete m_pMaterial;
+	m_pMaterial = nullptr;
 }
 
 void Object::SetPosition(const Elite::FPoint3& position)
@@ -16,12 +21,16 @@ const Elite::FPoint3& Object::GetPosition()
 	return m_Position;
 }
 
-void Object::SetColor(const Elite::RGBColor& color)
+void Object::SetMaterial(Material* pMaterial)
 {
-	m_Color = color;
-	m_Color.MaxToOne();
+	if(pMaterial == m_pMaterial)
+		return;
+
+	delete m_pMaterial;
+	m_pMaterial = pMaterial;
 }
-const Elite::RGBColor& Object::GetColor()
+
+Material* Object::GetMaterial() const
 {
-	return m_Color;
+	return m_pMaterial;
 }

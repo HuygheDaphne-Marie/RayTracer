@@ -1,7 +1,7 @@
 #include "Sphere.h"
 
-Sphere::Sphere(const Elite::FPoint3& position, const Elite::RGBColor& color, float radius)
-	: Object(position, color)
+Sphere::Sphere(const Elite::FPoint3& position, Material* pMaterial, float radius)
+	: Object(position, pMaterial)
 	, m_Radius{radius}
 	, m_InvertedRadius(1.f / radius) // so we don't keep recalculating this
 {
@@ -27,7 +27,7 @@ bool Sphere::Hit(const Ray& ray, HitRecord& hitRecord) const
 	if (closest > ray.tMin && ray.tMax > closest && closest < hitRecord.t)
 	{
 		hitRecord.t = closest;
-		hitRecord.color = m_Color;
+		hitRecord.pMaterial = m_pMaterial;
 		hitRecord.hitPoint = ray.origin + ray.direction * hitRecord.t;
 		hitRecord.normal = (hitRecord.hitPoint - m_Position) * m_InvertedRadius;
 		return true;

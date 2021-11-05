@@ -73,8 +73,18 @@ void Elite::Renderer::Render(PerspectiveCamera* pCamera)
 						const float lambertCosineDot = Dot(hitRecord.normal, -light->GetDirection(hitRecord.hitPoint)); 
 						if (lambertCosineDot < 0)
 							continue;
+
+						// Seem to just do, nothing
+						FVector3 toLight = light->GetDirection(hitRecord.hitPoint);
+						float distanceToLight = Magnitude(toLight);
+						Ray hitPointToLight{ hitRecord.hitPoint, toLight / distanceToLight, 0.1f, distanceToLight };
+						HitRecord lightCheckHitRecord{};
+						if (pActiveScene->Hit(hitPointToLight, lightCheckHitRecord))
+							continue;
 						
-						totalIrradiance += light->CalculateIrradiance(hitRecord.hitPoint) * hitRecord.color * lambertCosineDot;
+						totalIrradiance += light->CalculateIrradiance(hitRecord.hitPoint) // Ergb
+							* hitRecord.pMaterial->Shade(hitRecord, light->GetDirection(hitRecord.hitPoint), ray.direction) // BRDFrgb
+							* lambertCosineDot;
 					}
 					
 					totalIrradiance.MaxToOne();

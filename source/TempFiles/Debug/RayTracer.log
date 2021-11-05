@@ -1,4 +1,12 @@
-﻿  ERenderer.cpp
+﻿  LambertMaterial.cpp
+  Material.cpp
+  ERenderer.cpp
+  main.cpp
+  Object.cpp
+  Plane.cpp
+  PointLight.cpp
+  Scene.cpp
+  SceneManager.cpp
   Sphere.cpp
   Generating Code...
   RayTracer.vcxproj -> D:\Documents\School\DAE\SEM 3.5\Graphics Programming\RayTracer\bin\Debug\RayTracer.exe

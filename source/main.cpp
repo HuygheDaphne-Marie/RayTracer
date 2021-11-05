@@ -17,6 +17,9 @@
 #include "PerspectiveCamera.h"
 #include "PointLight.h"
 
+#include "Material.h"
+#include "LambertMaterial.h"
+
 void ShutDown(SDL_Window* pWindow)
 {
 	SDL_DestroyWindow(pWindow);
@@ -52,9 +55,9 @@ int main(int argc, char* args[])
 
 	//Initialize Scenes
 	SCENEMANAGER->AddScene(new Scene());
-	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ -0.75, 1, 0 }, RGBColor{ 1,0,0 }, 1.f));
-	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ 0.75, 1, 0 }, RGBColor{ 0,0,1 }, 1.f));
-	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0}));
+	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ -0.75, 1, 0 }, new LambertMaterial{ RGBColor{ 1,0,0 }, 0.5f }, 1.f));
+	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ 0.75, 1, 0 }, new LambertMaterial{ RGBColor{ 0,0,1 }, 0.5f }, 1.f));
+	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0}, new LambertMaterial{RGBColor{1,1,0}, 0.5f}));
 	
 	SCENEMANAGER->GetActiveScene()->AddLightToScene(new PointLight(FPoint3{ 0, 5, -5 }, RGBColor{1,1,1}, 25));
 	SCENEMANAGER->GetActiveScene()->AddLightToScene(new PointLight(FPoint3{ 0, 2.5, 5 }, RGBColor{1,1,1}, 25));

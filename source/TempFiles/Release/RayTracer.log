@@ -1,8 +1,16 @@
 ﻿  ERenderer.cpp
+  LambertMaterial.cpp
+  Material.cpp
+  Object.cpp
+  Plane.cpp
+  Scene.cpp
+  SceneManager.cpp
+  Sphere.cpp
+  main.cpp
   Generating code
-  2 of 306 functions ( 0.7%) were compiled, the rest were copied from previous compilation.
+  2 of 307 functions ( 0.7%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    8 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   RayTracer.vcxproj -> D:\Documents\School\DAE\SEM 3.5\Graphics Programming\RayTracer\bin\Release\RayTracer.exe
   0 File(s) copied

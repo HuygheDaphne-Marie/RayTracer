@@ -68,19 +68,16 @@ void Elite::Renderer::Render(PerspectiveCamera* pCamera)
 					RGBColor totalIrradiance{};
 					for (Light* light : pActiveScene->GetLights())
 					{
-						// TODO: which way is the direction supposed to point for a point light? to the point or to the light?
-						// Todo: I assume to the point, but then I need to -direction here for some reason, else my light in inverted
 						const float lambertCosineDot = Dot(hitRecord.normal, -light->GetDirection(hitRecord.hitPoint)); 
 						if (lambertCosineDot < 0)
-							continue;
+							continue; // if dot result is smaller than 0, reflection is pointing away from the light
 
-						// Seem to just do, nothing
-						FVector3 toLight = light->GetDirection(hitRecord.hitPoint);
+						FVector3 toLight = -light->GetDirection(hitRecord.hitPoint);
 						float distanceToLight = Magnitude(toLight);
-						Ray hitPointToLight{ hitRecord.hitPoint, toLight / distanceToLight, 0.1f, distanceToLight };
+						Ray hitPointToLight{ hitRecord.hitPoint, toLight / distanceToLight, 0.0001f, distanceToLight + 1.0f };
 						HitRecord lightCheckHitRecord{};
 						if (pActiveScene->Hit(hitPointToLight, lightCheckHitRecord))
-							continue;
+							continue; // if we hit anything there's an obstacle between the hitPoint and the light
 						
 						totalIrradiance += light->CalculateIrradiance(hitRecord.hitPoint) // Ergb
 							* hitRecord.pMaterial->Shade(hitRecord, light->GetDirection(hitRecord.hitPoint), ray.direction) // BRDFrgb
@@ -92,7 +89,6 @@ void Elite::Renderer::Render(PerspectiveCamera* pCamera)
 						static_cast<uint8_t>(totalIrradiance.r * 255.f),
 						static_cast<uint8_t>(totalIrradiance.g * 255.f),
 						static_cast<uint8_t>(totalIrradiance.b * 255.f));
-					
 				}
 				else
 				{

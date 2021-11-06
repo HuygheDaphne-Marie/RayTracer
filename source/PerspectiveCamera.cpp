@@ -34,7 +34,7 @@ const Elite::FMatrix4& PerspectiveCamera::GetLookAtMatrix() const
 void PerspectiveCamera::Update(float deltaTime)
 {
 	Elite::FVector3 translation{ 0,0,0 };
-	const float speed{ 50 };
+	const float speed{ 10 };
 	const float angularSpeed{ Elite::ToRadians(20.f) };
 
 	const Uint8* pStates = SDL_GetKeyboardState(nullptr);

@@ -56,9 +56,9 @@ int main(int argc, char* args[])
 
 	//Initialize Scenes
 	LambertMaterial* sphere1Mat = new LambertMaterial{ RGBColor{ 1,0,0 }, 1.0f };
-	LambertPhongMaterial* sphere2phongMat = new LambertPhongMaterial{ RGBColor{ 0.69f,0.68f,0.25f }, 1.f, 1.f, 60 };
 	LambertMaterial* planeMat = new LambertMaterial{ RGBColor{1,1,0}, 1.0f };
-	
+	LambertPhongMaterial* sphere2phongMat = new LambertPhongMaterial{ RGBColor{ 0.69f,0.68f,0.25f }, 1.f, 1.f, 60 };
+
 	SCENEMANAGER->AddScene(new Scene());
 	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ -0.75, 1, 0 }, sphere1Mat, 1.f));
 	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ 0.75, 1, 0 }, sphere2phongMat, 1.f));

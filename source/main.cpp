@@ -19,6 +19,7 @@
 
 #include "Material.h"
 #include "LambertMaterial.h"
+#include "LambertPhongMaterial.h"
 
 void ShutDown(SDL_Window* pWindow)
 {
@@ -54,10 +55,14 @@ int main(int argc, char* args[])
 	PerspectiveCamera* pCamera = new PerspectiveCamera(float(width), float(height), 45.f, {0,1,5});
 
 	//Initialize Scenes
+	LambertMaterial* sphere1Mat = new LambertMaterial{ RGBColor{ 1,0,0 }, 1.0f };
+	LambertPhongMaterial* sphere2phongMat = new LambertPhongMaterial{ RGBColor{ 0.69f,0.68f,0.25f }, 1.f, 1.f, 60 };
+	LambertMaterial* planeMat = new LambertMaterial{ RGBColor{1,1,0}, 1.0f };
+	
 	SCENEMANAGER->AddScene(new Scene());
-	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ -0.75, 1, 0 }, new LambertMaterial{ RGBColor{ 1,0,0 }, 0.5f }, 1.f));
-	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ 0.75, 1, 0 }, new LambertMaterial{ RGBColor{ 0,0,1 }, 0.5f }, 1.f));
-	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0}, new LambertMaterial{RGBColor{1,1,0}, 0.5f}));
+	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ -0.75, 1, 0 }, sphere1Mat, 1.f));
+	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ 0.75, 1, 0 }, sphere2phongMat, 1.f));
+	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0}, planeMat));
 	
 	SCENEMANAGER->GetActiveScene()->AddLightToScene(new PointLight(FPoint3{ 0, 5, -5 }, RGBColor{1,1,1}, 25));
 	SCENEMANAGER->GetActiveScene()->AddLightToScene(new PointLight(FPoint3{ 0, 2.5, 5 }, RGBColor{1,1,1}, 25));

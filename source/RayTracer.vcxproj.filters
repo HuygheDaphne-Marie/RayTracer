@@ -127,6 +127,9 @@
     <ClInclude Include="MaterialFunctions.h">
       <Filter>Materials</Filter>
     </ClInclude>
+    <ClInclude Include="LambertPhongMaterial.h">
+      <Filter>Materials</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ERenderer.cpp">
@@ -167,6 +170,9 @@
       <Filter>Materials</Filter>
     </ClCompile>
     <ClCompile Include="LambertMaterial.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="LambertPhongMaterial.cpp">
       <Filter>Materials</Filter>
     </ClCompile>
   </ItemGroup>

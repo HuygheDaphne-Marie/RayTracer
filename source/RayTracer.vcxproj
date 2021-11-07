@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="LambertPhongMaterial.h" />
     <ClInclude Include="MaterialFunctions.h" />
     <ClInclude Include="LambertMaterial.h" />
     <ClInclude Include="Light.h" />
@@ -110,6 +111,7 @@
   <ItemGroup>
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="LambertMaterial.cpp" />
+    <ClCompile Include="LambertPhongMaterial.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="PerspectiveCamera.cpp" />

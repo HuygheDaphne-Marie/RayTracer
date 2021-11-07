@@ -2,10 +2,10 @@
 
 #include "MaterialFunctions.h"
 
-LambertMaterial::LambertMaterial(const RGBColor& color, float reflectance)
+LambertMaterial::LambertMaterial(const RGBColor& color, float diffuseReflectance)
 	: m_DiffuseColor(color)
 {
-	SetReflectance(reflectance);
+	SetDiffuseReflectance(diffuseReflectance);
 }
 
 RGBColor LambertMaterial::Shade(const HitRecord& hitRecord, const FVector3& incomingLightDirection, const FVector3& viewDirection) const
@@ -18,7 +18,7 @@ void LambertMaterial::SetColor(const RGBColor& color)
 	m_DiffuseColor = color;
 }
 
-void LambertMaterial::SetReflectance(float reflectance)
+void LambertMaterial::SetDiffuseReflectance(float reflectance)
 {
 	// Ensure [0, 1] range
 	if (reflectance < 0.f)

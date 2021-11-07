@@ -1,19 +1,19 @@
 #pragma once
 #include "Material.h"
 
-class LambertMaterial final : public Material
+class LambertMaterial : public Material
 {
 public:
-	LambertMaterial(const RGBColor& color, float reflectance);
+	LambertMaterial(const RGBColor& color, float diffuseReflectance);
 	~LambertMaterial() override = default;
 
 	RGBColor Shade(const HitRecord& hitRecord, const FVector3& incomingLightDirection, const FVector3& viewDirection) const override;
 
 
 	void SetColor(const RGBColor& color);
-	void SetReflectance(float reflectance);
+	void SetDiffuseReflectance(float reflectance);
 
-private:
+protected:
 	RGBColor m_DiffuseColor{};
 	float m_DiffuseReflectance{};
 };

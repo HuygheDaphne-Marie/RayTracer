@@ -8,6 +8,7 @@
 
 #include "Ray.h"
 #include "HitRecord.h"
+#include "MathHelper.h"
 #include "SceneManager.h"
 #include "PerspectiveCamera.h"
 
@@ -24,30 +25,32 @@ Elite::Renderer::Renderer(SDL_Window * pWindow)
 	m_pBackBufferPixels = (uint32_t*)m_pBackBuffer->pixels;
 }
 
-void Elite::Renderer::Render(PerspectiveCamera* pCamera)
+void Elite::Renderer::Render()
 {
 	SDL_LockSurface(m_pBackBuffer);
 
-	//Loop over all the pixels
-	Scene* pActiveScene{ SCENEMANAGER->GetActiveScene() };
+	const SceneGraph& activeScene = SceneManager::GetInstance().GetActiveScene();
+	PerspectiveCamera* pCamera = activeScene.GetCamera();
 
 	Ray ray{};
 	HitRecord hitRecord{};
-	FPoint3 camPos{ pCamera->GetLookAtMatrix()[3].xyz }; // WIP
+	FPoint3 camPos{ pCamera->GetLookAtMatrix()[3].xyz };
 
-	for (uint32_t r = 0; r < m_Height; ++r)
+	//Loop over all the pixels
+	for (uint32_t row = 0; row < m_Height; ++row)
 	{
-		float screenSpaceRow{ 1 - 2 * ( (r + 0.5f) / m_Height ) };
+		const float screenSpaceRow = CalculateScreenSpaceRow(static_cast<int>(row), static_cast<int>(m_Height));
 
-		for (uint32_t c = 0; c < m_Width; ++c)
+		for (uint32_t col = 0; col < m_Width; ++col)
 		{
-			float screenSpaceColumn{ 2 * ( (c + 0.5f) / m_Width) - 1};
+			const float screenSpaceCol = CalculateScreenSpaceColumn(static_cast<int>(col), static_cast<int>(m_Width));
+
 			// Reset ray
 			ray.direction = {};
 			ray.origin = {};
 
 			// Assign y & x
-			ray.origin.x = screenSpaceColumn * pCamera->GetAspectRatio() * pCamera->GetFieldOfView();
+			ray.origin.x = screenSpaceCol * pCamera->GetAspectRatio() * pCamera->GetFieldOfView();
 			ray.origin.y = screenSpaceRow * pCamera->GetFieldOfView();
 			hitRecord.t = ray.tMax;
 
@@ -60,43 +63,39 @@ void Elite::Renderer::Render(PerspectiveCamera* pCamera)
 			// Get Direction
 			ray.direction = ray.origin - camPos;
 			Normalize(ray.direction);
-
-			if (pActiveScene != nullptr)
+			if (activeScene.Hit(ray, hitRecord))
 			{
-				if (pActiveScene->Hit(ray, hitRecord))
+				RGBColor totalIrradiance{};
+				for (Light* light : activeScene.GetLights())
 				{
-					RGBColor totalIrradiance{};
-					for (Light* light : pActiveScene->GetLights())
-					{
-						const float lambertCosineDot = Dot(hitRecord.normal, -light->GetDirection(hitRecord.hitPoint)); 
-						if (lambertCosineDot < 0)
-							continue; // if dot result is smaller than 0, reflection is pointing away from the light
+					const float lambertCosineDot = Dot(hitRecord.normal, -light->GetDirection(hitRecord.hitPoint));
+					if (lambertCosineDot < 0)
+						continue; // if dot result is smaller than 0, reflection is pointing away from the light
 
-						FVector3 toLight = -light->GetDirection(hitRecord.hitPoint);
-						float distanceToLight = Magnitude(toLight);
-						Ray hitPointToLight{ hitRecord.hitPoint, toLight / distanceToLight, 0.0001f, distanceToLight + 1.0f };
-						HitRecord lightCheckHitRecord{};
-						if (pActiveScene->Hit(hitPointToLight, lightCheckHitRecord))
-							continue; // if we hit anything there's an obstacle between the hitPoint and the light
-						
-						totalIrradiance += light->CalculateIrradiance(hitRecord.hitPoint) // Ergb
-							* hitRecord.pMaterial->Shade(hitRecord, light->GetDirection(hitRecord.hitPoint), ray.direction) // BRDFrgb
-							* lambertCosineDot;
-					}
-					
-					totalIrradiance.MaxToOne();
-					m_pBackBufferPixels[c + (r * m_Width)] = SDL_MapRGB(m_pBackBuffer->format,
-						static_cast<uint8_t>(totalIrradiance.r * 255.f),
-						static_cast<uint8_t>(totalIrradiance.g * 255.f),
-						static_cast<uint8_t>(totalIrradiance.b * 255.f));
+					FVector3 toLight = -light->GetDirection(hitRecord.hitPoint);
+					float distanceToLight = Magnitude(toLight);
+					Ray hitPointToLight{ hitRecord.hitPoint, toLight / distanceToLight, 0.0001f, distanceToLight + 1.0f };
+					HitRecord lightCheckHitRecord{};
+					if (activeScene.Hit(hitPointToLight, lightCheckHitRecord))
+						continue; // if we hit anything there's an obstacle between the hitPoint and the light
+
+					totalIrradiance += light->CalculateIrradiance(hitRecord.hitPoint) // Ergb
+						* hitRecord.pMaterial->Shade(hitRecord, light->GetDirection(hitRecord.hitPoint), ray.direction) // BRDFrgb
+						* lambertCosineDot;
 				}
-				else
-				{
-					m_pBackBufferPixels[c + (r * m_Width)] = SDL_MapRGB(m_pBackBuffer->format,
-						static_cast<uint8_t>(0.f),
-						static_cast<uint8_t>(0.f),
-						static_cast<uint8_t>(0.f));
-				}
+
+				totalIrradiance.MaxToOne();
+				m_pBackBufferPixels[col + (row * m_Width)] = SDL_MapRGB(m_pBackBuffer->format,
+					static_cast<uint8_t>(totalIrradiance.r * 255.f),
+					static_cast<uint8_t>(totalIrradiance.g * 255.f),
+					static_cast<uint8_t>(totalIrradiance.b * 255.f));
+			}
+			else
+			{
+				m_pBackBufferPixels[col + (row * m_Width)] = SDL_MapRGB(m_pBackBuffer->format,
+					static_cast<uint8_t>(0.f),
+					static_cast<uint8_t>(0.f),
+					static_cast<uint8_t>(0.f));
 			}
 		}
 	}

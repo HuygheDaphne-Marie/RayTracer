@@ -76,11 +76,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="LambertPhongMaterial.h" />
     <ClInclude Include="MaterialFunctions.h" />
     <ClInclude Include="LambertMaterial.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="MathHelper.h" />
     <ClInclude Include="PerspectiveCamera.h" />
     <ClInclude Include="EMath.h" />
     <ClInclude Include="EMathUtilities.h" />
@@ -103,8 +105,8 @@
     <ClInclude Include="Plane.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Ray.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Geometry.h" />
+    <ClInclude Include="SceneGraph.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Sphere.h" />
   </ItemGroup>
@@ -118,10 +120,10 @@
     <ClCompile Include="ERenderer.cpp" />
     <ClCompile Include="ETimer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="PointLight.cpp" />
-    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneGraph.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Sphere.cpp" />
   </ItemGroup>

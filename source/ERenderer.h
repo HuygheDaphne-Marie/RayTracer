@@ -28,7 +28,7 @@ namespace Elite
 		Renderer& operator=(const Renderer&) = delete;
 		Renderer& operator=(Renderer&&) noexcept = delete;
 
-		void Render(PerspectiveCamera* pCamera);
+		void Render();
 		bool SaveBackbufferToImage() const;
 
 	private:

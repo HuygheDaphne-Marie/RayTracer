@@ -11,9 +11,6 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{72056cb6-72a2-42b7-b05e-376f1ddd957e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects">
-      <UniqueIdentifier>{ec36e100-8229-4995-b668-3f2e3b7b467b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene">
       <UniqueIdentifier>{6118819d-49f1-455c-a20d-1c9c9730ee5a}</UniqueIdentifier>
     </Filter>
@@ -28,6 +25,12 @@
     </Filter>
     <Filter Include="Materials">
       <UniqueIdentifier>{4a7e7340-3c66-416c-af25-6cb01882bfac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry">
+      <UniqueIdentifier>{ec36e100-8229-4995-b668-3f2e3b7b467b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Singleton">
+      <UniqueIdentifier>{8bec4bf7-28a5-48a7-9fa6-82ad475f83fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -85,13 +88,13 @@
     <ClInclude Include="ETimer.h">
       <Filter>Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Objects</Filter>
+    <ClInclude Include="Geometry.h">
+      <Filter>Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Sphere.h">
-      <Filter>Objects</Filter>
+      <Filter>Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
+    <ClInclude Include="SceneGraph.h">
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
@@ -104,7 +107,7 @@
       <Filter>Ray</Filter>
     </ClInclude>
     <ClInclude Include="Plane.h">
-      <Filter>Objects</Filter>
+      <Filter>Geometry</Filter>
     </ClInclude>
     <ClInclude Include="PerspectiveCamera.h">
       <Filter>Camera</Filter>
@@ -130,6 +133,12 @@
     <ClInclude Include="LambertPhongMaterial.h">
       <Filter>Materials</Filter>
     </ClInclude>
+    <ClInclude Include="MathHelper.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Singleton</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ERenderer.cpp">
@@ -139,20 +148,20 @@
     <ClCompile Include="ETimer.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Objects</Filter>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>Geometry</Filter>
     </ClCompile>
     <ClCompile Include="Sphere.cpp">
-      <Filter>Objects</Filter>
+      <Filter>Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
+    <ClCompile Include="SceneGraph.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Plane.cpp">
-      <Filter>Objects</Filter>
+      <Filter>Geometry</Filter>
     </ClCompile>
     <ClCompile Include="PerspectiveCamera.cpp">
       <Filter>Camera</Filter>

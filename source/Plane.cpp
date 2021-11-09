@@ -1,7 +1,7 @@
 #include "Plane.h"
 
 Plane::Plane(const Elite::FPoint3& position, const Elite::FVector3& normal, Material* pMaterial)
-	: Object(position, pMaterial)
+	: Geometry(position, pMaterial)
 	, m_Normal{ Elite::GetNormalized(normal) }
 {
 }

@@ -1,7 +1,7 @@
 #pragma once
-#include "Object.h"
+#include "Geometry.h"
 
-class Plane final : public Object
+class Plane final : public Geometry
 {
 public:
 	Plane(const Elite::FPoint3& position, const Elite::FVector3& normal, Material* pMaterial);

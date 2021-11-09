@@ -1,83 +1,108 @@
 #include "SceneManager.h"
 
-SceneManager* SceneManager::GetInstance()
+//SceneManager* SceneManager::GetInstance()
+//{
+//	static SceneManager* instance = nullptr;
+//	if (instance == nullptr)
+//	{
+//		instance = new SceneManager();
+//	}
+//	return instance;
+//}
+//
+//SceneManager::SceneManager()
+//	: m_pScenes{}
+//	, m_ActiveSceneIdx{-1}
+//{
+//}
+//SceneManager::~SceneManager()
+//{
+//	for (SceneGraph* pScene : m_pScenes)
+//	{
+//		delete pScene;
+//		pScene = nullptr;
+//	}
+//}
+//
+//void SceneManager::AddScene(SceneGraph* pScene)
+//{
+//	if (pScene == nullptr)
+//	{
+//		return;
+//	}
+//	if (m_ActiveSceneIdx == -1)
+//	{
+//		m_ActiveSceneIdx = 0;
+//	}
+//	m_pScenes.push_back(pScene);
+//}
+//const std::vector<SceneGraph*>& SceneManager::GetScenes()
+//{
+//	return m_pScenes;
+//}
+//SceneGraph* SceneManager::GetActiveScene()
+//{
+//	if (m_ActiveSceneIdx == -1)
+//	{
+//		return nullptr;
+//	}
+//
+//	return m_pScenes[m_ActiveSceneIdx];
+//}
+//
+//void SceneManager::GotoNextScene()
+//{
+//	if (m_ActiveSceneIdx == -1)
+//	{
+//		return;
+//	}
+//
+//	m_ActiveSceneIdx = (m_ActiveSceneIdx++) % m_pScenes.size();
+//}
+//void SceneManager::GotoPreviousScene()
+//{
+//	if (m_ActiveSceneIdx == -1)
+//	{
+//		return;
+//	}
+//
+//	m_ActiveSceneIdx = (m_ActiveSceneIdx--) % m_pScenes.size();
+//}
+//void SceneManager::GotoScene(unsigned int idx)
+//{
+//	if (m_ActiveSceneIdx == -1)
+//	{
+//		return;
+//	}
+//
+//	m_ActiveSceneIdx = idx % m_pScenes.size();
+//}
+//int SceneManager::GetActiveSceneIndex() const
+//{
+//	return m_ActiveSceneIdx;
+//}
+
+void SceneManager::AddSceneGraph(const SceneGraph& sceneGraph)
 {
-	static SceneManager* instance = nullptr;
-	if (instance == nullptr)
-	{
-		instance = new SceneManager();
-	}
-	return instance;
+	m_SceneGraphs.push_back(sceneGraph);
 }
 
-SceneManager::SceneManager()
-	: m_pScenes{}
-	, m_ActiveSceneIdx{-1}
+SceneGraph& SceneManager::GetActiveScene()
 {
+	return m_SceneGraphs[m_CurrentlyActiveSceneIndex];
 }
-SceneManager::~SceneManager()
+SceneGraph& SceneManager::GotoScene(const int index)
 {
-	for (Scene* pScene : m_pScenes)
-	{
-		delete pScene;
-		pScene = nullptr;
-	}
+	m_CurrentlyActiveSceneIndex = index % static_cast<int>(m_SceneGraphs.size());
+	return GetActiveScene();
 }
-
-void SceneManager::AddScene(Scene* pScene)
+SceneGraph& SceneManager::GotoNextScene()
 {
-	if (pScene == nullptr)
-	{
-		return;
-	}
-	if (m_ActiveSceneIdx == -1)
-	{
-		m_ActiveSceneIdx = 0;
-	}
-	m_pScenes.push_back(pScene);
+	return GotoScene(m_CurrentlyActiveSceneIndex + 1);
 }
-const std::vector<Scene*>& SceneManager::GetScenes()
+SceneGraph& SceneManager::GotoPreviousScene()
 {
-	return m_pScenes;
-}
-Scene* SceneManager::GetActiveScene()
-{
-	if (m_ActiveSceneIdx == -1)
-	{
-		return nullptr;
-	}
-
-	return m_pScenes[m_ActiveSceneIdx];
+	return GotoScene(m_CurrentlyActiveSceneIndex - 1);
 }
 
-void SceneManager::NextScene()
-{
-	if (m_ActiveSceneIdx == -1)
-	{
-		return;
-	}
 
-	m_ActiveSceneIdx = (m_ActiveSceneIdx++) % m_pScenes.size();
-}
-void SceneManager::PreviousScene()
-{
-	if (m_ActiveSceneIdx == -1)
-	{
-		return;
-	}
-
-	m_ActiveSceneIdx = (m_ActiveSceneIdx--) % m_pScenes.size();
-}
-void SceneManager::SetActiveSceneIndex(unsigned int idx)
-{
-	if (m_ActiveSceneIdx == -1)
-	{
-		return;
-	}
-
-	m_ActiveSceneIdx = idx % m_pScenes.size();
-}
-int SceneManager::GetActiveSceneIndex() const
-{
-	return m_ActiveSceneIdx;
-}

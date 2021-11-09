@@ -33,6 +33,9 @@ int main(int argc, char* args[])
 	(void)argc;
 	(void)args;
 
+	// Init Singletons
+	SceneManager& sceneManager = SceneManager::GetInstance();
+
 	//Create window + surfaces
 	SDL_Init(SDL_INIT_VIDEO);
 
@@ -51,21 +54,20 @@ int main(int argc, char* args[])
 	Elite::Timer* pTimer = new Elite::Timer();
 	Elite::Renderer* pRenderer = new Elite::Renderer(pWindow);
 
-	// Initialize Camera
-	PerspectiveCamera* pCamera = new PerspectiveCamera(float(width), float(height), 45.f, {0,1,5});
-
 	//Initialize Scenes
+	SceneGraph& scene = sceneManager.GetActiveScene();
+	scene.InitialiseCamera(width, height, 45.0f, { 0,1,5 });
+
 	LambertMaterial* sphere1Mat = new LambertMaterial{ RGBColor{ 1,0,0 }, 1.0f };
 	LambertMaterial* planeMat = new LambertMaterial{ RGBColor{1,1,0}, 1.0f };
 	LambertPhongMaterial* sphere2phongMat = new LambertPhongMaterial{ RGBColor{ 0.69f,0.68f,0.25f }, 1.f, 1.f, 60 };
 
-	SCENEMANAGER->AddScene(new Scene());
-	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ -0.75, 1, 0 }, sphere1Mat, 1.f));
-	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Sphere(FPoint3{ 0.75, 1, 0 }, sphere2phongMat, 1.f));
-	SCENEMANAGER->GetActiveScene()->AddObjectToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0}, planeMat));
+	scene.AddGeometryToScene(new Sphere(FPoint3{ -0.75, 1, 0 }, sphere1Mat, 1.f));
+	scene.AddGeometryToScene(new Sphere(FPoint3{ 0.75, 1, 0 }, sphere2phongMat, 1.f));
+	scene.AddGeometryToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0}, planeMat));
 	
-	SCENEMANAGER->GetActiveScene()->AddLightToScene(new PointLight(FPoint3{ 0, 5, -5 }, RGBColor{1,1,1}, 25));
-	SCENEMANAGER->GetActiveScene()->AddLightToScene(new PointLight(FPoint3{ 0, 2.5, 5 }, RGBColor{1,1,1}, 25));
+	scene.AddLightToScene(new PointLight(FPoint3{ 0, 5, -5 }, RGBColor{1,1,1}, 25));
+	scene.AddLightToScene(new PointLight(FPoint3{ 0, 2.5, 5 }, RGBColor{1,1,1}, 25));
 
 	//Start loop
 	pTimer->Start();
@@ -90,10 +92,10 @@ int main(int argc, char* args[])
 			}
 		}
 		// Update Camera
-		pCamera->Update(pTimer->GetElapsed());
+		sceneManager.GetActiveScene().GetCamera()->Update(pTimer->GetElapsed());
 
 		//--------- Render ---------
-		pRenderer->Render(pCamera);
+		pRenderer->Render();
 
 		//--------- Timer ---------
 		pTimer->Update();
@@ -119,8 +121,6 @@ int main(int argc, char* args[])
 	//Shutdown "framework"
 	delete pRenderer;
 	delete pTimer;
-	delete SCENEMANAGER;
-	delete pCamera;
 
 	ShutDown(pWindow);
 	return 0;

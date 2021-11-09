@@ -5,7 +5,7 @@ class DirectionalLight final : public Light
 public:
 	DirectionalLight(const FVector3& direction, const RGBColor& color, float intensity)
 		: Light(color, intensity)
-		, m_Direction(direction)
+		, m_Direction(GetNormalized(direction))
 	{
 	}
 

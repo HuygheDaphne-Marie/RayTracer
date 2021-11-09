@@ -10,7 +10,7 @@ LambertPhongMaterial::LambertPhongMaterial(const RGBColor& color, float diffuseR
 
 RGBColor LambertPhongMaterial::Shade(const HitRecord& hitRecord, const FVector3& incomingLightDirection, const FVector3& viewDirection) const
 {
-	return BRDF::Lambert(m_DiffuseReflectance, m_DiffuseColor) + 
+	return BRDF::Lambert(RGBColor{ m_DiffuseReflectance, m_DiffuseReflectance, m_DiffuseReflectance }, m_DiffuseColor) +
 		BRDF::Phong(m_SpecularReflectance, m_PhongExponent, incomingLightDirection, viewDirection, hitRecord.normal);
 }
 

@@ -139,6 +139,9 @@
     <ClInclude Include="Singleton.h">
       <Filter>Singleton</Filter>
     </ClInclude>
+    <ClInclude Include="PBRMaterial.h">
+      <Filter>Materials</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ERenderer.cpp">
@@ -182,6 +185,9 @@
       <Filter>Materials</Filter>
     </ClCompile>
     <ClCompile Include="LambertPhongMaterial.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="PBRMaterial.cpp">
       <Filter>Materials</Filter>
     </ClCompile>
   </ItemGroup>

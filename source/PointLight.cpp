@@ -18,5 +18,5 @@ RGBColor PointLight::CalculateIrradiance(const FPoint3& point) const
 
 FVector3 PointLight::GetDirection(const FPoint3& to) const
 {
-	return FVector3{ to - m_Position };
+	return GetNormalized(FVector3{ to - m_Position });
 }

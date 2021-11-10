@@ -52,26 +52,50 @@ int main(int argc, char* args[])
 		return 1;
 
 	//Initialize "framework"
-	Elite::Timer* pTimer = new Elite::Timer();
-	Elite::Renderer* pRenderer = new Elite::Renderer(pWindow);
+	Timer* pTimer = new Timer();
+	Renderer* pRenderer = new Renderer(pWindow);
 
 	//Initialize Scenes
-	SceneGraph& scene = sceneManager.GetActiveScene();
-	scene.InitialiseCamera(width, height, 45.0f, { 0,1,5 });
+	{
+		// Spheres PRBMaterial Scene
+		SceneGraph& scene = sceneManager.GetActiveScene();
+		scene.InitialiseCamera(width, height, 45.0f, { 0,1,10 });
+
+		// Materials
+		const std::shared_ptr<PBRMaterial> dielectric1 = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, false, 1.0f });
+		const std::shared_ptr<PBRMaterial> dielectric2 = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, false, 0.6f });
+		const std::shared_ptr<PBRMaterial> dielectric3 = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, false, 0.1f });
+
+		const std::shared_ptr<PBRMaterial> metallic1 = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, true, 1.0f });
+		const std::shared_ptr<PBRMaterial> metallic2 = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, true, 0.6f });
+		const std::shared_ptr<PBRMaterial> metallic3 = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, true, 0.1f });
+
+		const std::shared_ptr<PBRMaterial> planeMat = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, false, 1.0f });
+
+		// Geometry
+		// Top row (dielectrics)
+		scene.AddGeometryToScene(new Sphere(FPoint3{ -2.5f, 4, 0 }, dielectric1, 1.f));
+		scene.AddGeometryToScene(new Sphere(FPoint3{ 0, 4, 0 }, dielectric2, 1.f));
+		scene.AddGeometryToScene(new Sphere(FPoint3{ 2.5f, 4, 0 }, dielectric3, 1.f));
+
+		// Bottom row (metals)
+		scene.AddGeometryToScene(new Sphere(FPoint3{ -2.5f, 1, 0 }, metallic1, 1.f));
+		scene.AddGeometryToScene(new Sphere(FPoint3{ 0, 1, 0 }, metallic2, 1.f));
+		scene.AddGeometryToScene(new Sphere(FPoint3{ 2.5f, 1, 0 }, metallic3, 1.f));
+
+		// Planes
+		scene.AddGeometryToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0 }, planeMat));
+
+		// Lights
+		scene.AddLightToScene(new PointLight(FPoint3{ -5, 5, -5 }, RGBColor{ 1,1,1 }, 25));
+		scene.AddLightToScene(new PointLight(FPoint3{ -5, 5, 5 }, RGBColor{ 1,1,1 }, 25));
+		scene.AddLightToScene(new PointLight(FPoint3{ 0, 5, -5 }, RGBColor{ 1,1,1 }, 25));
+		scene.AddLightToScene(new PointLight(FPoint3{ 0, 5, 5 }, RGBColor{ 1,1,1 }, 25));
+		scene.AddLightToScene(new PointLight(FPoint3{ 5, 5, -5 }, RGBColor{ 1,1,1 }, 25));
+		scene.AddLightToScene(new PointLight(FPoint3{ 5, 5, 5 }, RGBColor{ 1,1,1 }, 25));
+	}
 
 	
-	std::shared_ptr<PBRMaterial> sphere1Mat = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, false, 1.0f });
-	std::shared_ptr<PBRMaterial> sphere2Mat = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, false, 0.1f });
-	//LambertMaterial* sphere1Mat = new LambertMaterial{ RGBColor{ 1,0,0 }, 1.0f };
-	//LambertPhongMaterial* sphere2Mat = new LambertPhongMaterial{ RGBColor{ 0.69f,0.68f,0.25f }, 1.f, 1.f, 60 };
-	std::shared_ptr<LambertMaterial> planeMat = std::make_shared<LambertMaterial>(LambertMaterial{ RGBColor{1,1,0}, 1.0f });
-
-	scene.AddGeometryToScene(new Sphere(FPoint3{ -0.75, 1, 0 }, sphere1Mat, 1.f));
-	scene.AddGeometryToScene(new Sphere(FPoint3{ 0.75, 1, 0 }, sphere2Mat, 1.f));
-	scene.AddGeometryToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0}, planeMat));
-	
-	scene.AddLightToScene(new PointLight(FPoint3{ 0, 5, -5 }, RGBColor{1,1,1}, 25));
-	scene.AddLightToScene(new PointLight(FPoint3{ 0, 2.5, 5 }, RGBColor{1,1,1}, 25));
 
 	//Start loop
 	pTimer->Start();

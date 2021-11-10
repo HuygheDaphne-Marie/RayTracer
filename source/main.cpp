@@ -62,37 +62,39 @@ int main(int argc, char* args[])
 		scene.InitialiseCamera(width, height, 45.0f, { 0,1,10 });
 
 		// Materials
-		const std::shared_ptr<PBRMaterial> dielectric1 = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, false, 1.0f });
-		const std::shared_ptr<PBRMaterial> dielectric2 = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, false, 0.6f });
-		const std::shared_ptr<PBRMaterial> dielectric3 = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, false, 0.1f });
+		const std::shared_ptr<PBRMaterial> PBR_RoughMetal = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.972f, 0.960f, 0.915f}, true, 1.0f });
+		const std::shared_ptr<PBRMaterial> PRB_MediumMetal = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.972f, 0.960f, 0.915f}, true, 0.6f });
+		const std::shared_ptr<PBRMaterial> PBR_SmoothMetal = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.972f, 0.960f, 0.915f}, true, 0.1f });
 
-		const std::shared_ptr<PBRMaterial> metallic1 = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, true, 1.0f });
-		const std::shared_ptr<PBRMaterial> metallic2 = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, true, 0.6f });
-		const std::shared_ptr<PBRMaterial> metallic3 = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, true, 0.1f });
+		const std::shared_ptr<PBRMaterial> PBR_RoughPlastic = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.75f, 0.75f, 0.75f}, false, 1.0f });
+		const std::shared_ptr<PBRMaterial> PBR_MediumPlastic = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.75f, 0.75f, 0.75f}, false, 0.6f });
+		const std::shared_ptr<PBRMaterial> PBR_SmoothPlastic = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.75f, 0.75f, 0.75f}, false, 0.1f });
 
-		const std::shared_ptr<PBRMaterial> planeMat = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, false, 1.0f });
+		const std::shared_ptr<LambertMaterial> Lambert_GreyBlue = std::make_shared<LambertMaterial>(RGBColor{ 0.49f, 0.57f, 0.57f }, 1.f);
+		const std::shared_ptr<LambertMaterial> Lambert_White = std::make_shared<LambertMaterial>(RGBColor{ 1.f, 1.f, 1.f }, 1.f);
 
 		// Geometry
-		// Top row (dielectrics)
-		scene.AddGeometryToScene(new Sphere(FPoint3{ -2.5f, 4, 0 }, dielectric1, 1.f));
-		scene.AddGeometryToScene(new Sphere(FPoint3{ 0, 4, 0 }, dielectric2, 1.f));
-		scene.AddGeometryToScene(new Sphere(FPoint3{ 2.5f, 4, 0 }, dielectric3, 1.f));
+		// Bottom row
+		scene.AddGeometryToScene(new Sphere(FPoint3{ -1.75f, 1.f, 0.f }, PBR_RoughMetal, 0.75f));
+		scene.AddGeometryToScene(new Sphere(FPoint3{ 0, 1.f, 0.f }, PRB_MediumMetal, 0.75f));
+		scene.AddGeometryToScene(new Sphere(FPoint3{ 1.75f, 1.f, 0.f }, PBR_SmoothMetal, 0.75f));
 
-		// Bottom row (metals)
-		scene.AddGeometryToScene(new Sphere(FPoint3{ -2.5f, 1, 0 }, metallic1, 1.f));
-		scene.AddGeometryToScene(new Sphere(FPoint3{ 0, 1, 0 }, metallic2, 1.f));
-		scene.AddGeometryToScene(new Sphere(FPoint3{ 2.5f, 1, 0 }, metallic3, 1.f));
+		// Top row
+		scene.AddGeometryToScene(new Sphere(FPoint3{ -1.75f, 3.f, 0.f }, PBR_RoughPlastic, 0.75f));
+		scene.AddGeometryToScene(new Sphere(FPoint3{ 0.f, 3.f, 0.f }, PBR_MediumPlastic, 0.75f));
+		scene.AddGeometryToScene(new Sphere(FPoint3{ 1.75f, 3.f, 0.f }, PBR_SmoothPlastic, 0.75f));
 
 		// Planes
-		scene.AddGeometryToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0 }, planeMat));
+		scene.AddGeometryToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0 }, Lambert_GreyBlue));
+
+		// TODO: Adding more planes breaks things, somehow
+		//scene.AddGeometryToScene(new Plane(FPoint3{ 0, 0, -10.f }, FVector3{ 0, 0, 1.f }, Lambert_GreyBlue));
+		//scene.AddGeometryToScene(new Plane(FPoint3{ 0, 10.f, 0 }, FVector3{ 0, -1, 0 }, Lambert_GreyBlue));
 
 		// Lights
-		scene.AddLightToScene(new PointLight(FPoint3{ -5, 5, -5 }, RGBColor{ 1,1,1 }, 25));
-		scene.AddLightToScene(new PointLight(FPoint3{ -5, 5, 5 }, RGBColor{ 1,1,1 }, 25));
-		scene.AddLightToScene(new PointLight(FPoint3{ 0, 5, -5 }, RGBColor{ 1,1,1 }, 25));
-		scene.AddLightToScene(new PointLight(FPoint3{ 0, 5, 5 }, RGBColor{ 1,1,1 }, 25));
-		scene.AddLightToScene(new PointLight(FPoint3{ 5, 5, -5 }, RGBColor{ 1,1,1 }, 25));
-		scene.AddLightToScene(new PointLight(FPoint3{ 5, 5, 5 }, RGBColor{ 1,1,1 }, 25));
+		scene.AddLightToScene(new PointLight(FPoint3{ 0, 5, -5 }, RGBColor{ 1,.61f,.45f }, 50));
+		scene.AddLightToScene(new PointLight(FPoint3{ -2.5f, 5, 5 }, RGBColor{ 1, .8f, .45f }, 70));
+		scene.AddLightToScene(new PointLight(FPoint3{ 2.5f, 2.5f, 5.f }, RGBColor{ .34f, .47f, .68f }, 50));
 	}
 
 	

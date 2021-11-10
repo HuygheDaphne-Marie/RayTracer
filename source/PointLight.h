@@ -10,6 +10,7 @@ public:
 	~PointLight() override = default;
 
 	RGBColor CalculateIrradiance(const FPoint3& point) const override;
+	FVector3 GetDirectionNormalised(const FPoint3& to) const override;
 	FVector3 GetDirection(const FPoint3& to) const override;
 
 

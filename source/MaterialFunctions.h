@@ -2,17 +2,17 @@
 #include "ERGBColor.h"
 #include "EMath.h"
 
-// Helpers
-
 
 namespace BRDF
 {
+	// Helper
 	inline FVector3 CreateHalfVector(const FVector3& lightDirection, const FVector3& viewDirection)
 	{
-		return GetNormalized(viewDirection + -lightDirection);
+		return GetNormalized(viewDirection + lightDirection);
 	}
 
-	inline RGBColor Lambert(const Elite::RGBColor& diffuseReflectance, const Elite::RGBColor& diffuseColor)
+	// Material Functions
+	inline RGBColor Lambert(const float diffuseReflectance, const Elite::RGBColor& diffuseColor)
 	{
 		return (diffuseColor * diffuseReflectance) / static_cast<float>(E_PI);
 	}

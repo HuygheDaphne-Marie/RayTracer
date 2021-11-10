@@ -59,7 +59,7 @@ int main(int argc, char* args[])
 	{
 		// Spheres PRBMaterial Scene
 		SceneGraph& scene = sceneManager.GetActiveScene();
-		scene.InitialiseCamera(width, height, 45.0f, { 0,1,10 });
+		scene.InitialiseCamera(width, height, 45.0f, { 0, 3, 9 });
 
 		// Materials
 		const std::shared_ptr<PBRMaterial> PBR_RoughMetal = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.972f, 0.960f, 0.915f}, true, 1.0f });
@@ -86,10 +86,10 @@ int main(int argc, char* args[])
 
 		// Planes
 		scene.AddGeometryToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0 }, Lambert_GreyBlue));
-
-		// TODO: Adding more planes breaks things, somehow
-		//scene.AddGeometryToScene(new Plane(FPoint3{ 0, 0, -10.f }, FVector3{ 0, 0, 1.f }, Lambert_GreyBlue));
-		//scene.AddGeometryToScene(new Plane(FPoint3{ 0, 10.f, 0 }, FVector3{ 0, -1, 0 }, Lambert_GreyBlue));
+		scene.AddGeometryToScene(new Plane(FPoint3{ 0, 0, -10.f }, FVector3{ 0, 0, 1.f }, Lambert_GreyBlue)); // facing cam
+		scene.AddGeometryToScene(new Plane(FPoint3{ 0, 10.f, 0 }, FVector3{ 0, -1.f, 0 }, Lambert_GreyBlue)); // ceiling
+		scene.AddGeometryToScene(new Plane(FPoint3{ 5, 0, 0 }, FVector3{ -1, 0, 0 }, Lambert_GreyBlue));
+		scene.AddGeometryToScene(new Plane(FPoint3{ -5, 0, 0 }, FVector3{ 1, 0, 0 }, Lambert_GreyBlue));
 
 		// Lights
 		scene.AddLightToScene(new PointLight(FPoint3{ 0, 5, -5 }, RGBColor{ 1,.61f,.45f }, 50));

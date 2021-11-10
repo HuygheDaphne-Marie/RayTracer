@@ -33,8 +33,8 @@ void Elite::Renderer::Render()
 	const SceneGraph& activeScene = SceneManager::GetInstance().GetActiveScene();
 	PerspectiveCamera* pCamera = activeScene.GetCamera();
 
-	Ray ray{};
-	HitRecord hitRecord{};
+	//Ray ray{};
+	//HitRecord hitRecord{};
 	FPoint3 camPos{ pCamera->GetLookAtMatrix()[3].xyz };
 
 	//Loop over all the pixels
@@ -47,16 +47,16 @@ void Elite::Renderer::Render()
 			const float screenSpaceCol = CalculateScreenSpaceColumn(static_cast<int>(col), static_cast<int>(m_Width));
 
 			// Reset ray
-			ray.direction = {};
-			ray.origin = {};
+			Ray ray{};
+			HitRecord hitRecord{};
 
-			// Assign y & x
+			// Set Ray origin (Raster to camera space)
 			ray.origin.x = screenSpaceCol * pCamera->GetAspectRatio() * pCamera->GetFieldOfView();
 			ray.origin.y = screenSpaceRow * pCamera->GetFieldOfView();
-			hitRecord.t = ray.tMax;
+			ray.origin.z = -1.0f;
 
 			// Transform
-			FPoint4 pos = pCamera->GetLookAtMatrix() * FPoint4{ ray.origin.x, ray.origin.y, -1, 1 };
+			FPoint4 pos = pCamera->GetLookAtMatrix() * FPoint4{ ray.origin.x, ray.origin.y, ray.origin.z, 0 };
 			ray.origin.x = pos.x;
 			ray.origin.y = pos.y;
 			ray.origin.z = pos.z;
@@ -64,25 +64,32 @@ void Elite::Renderer::Render()
 			// Get Direction
 			ray.direction = ray.origin - camPos;
 			Normalize(ray.direction);
+
 			if (activeScene.Hit(ray, hitRecord))
 			{
 				RGBColor totalIrradiance{};
 				for (Light* light : activeScene.GetLights())
 				{
-					const float lambertCosineDot = Dot(hitRecord.normal, -light->GetDirection(hitRecord.hitPoint));
-					if (lambertCosineDot < 0)
+					const FVector3 lightDirection = light->GetDirection(hitRecord.hitPoint);
+					const float distanceToLight = Magnitude(lightDirection);
+					const FVector3 lightDirectionNormalized = lightDirection / distanceToLight;
+
+					const float lambertCosineLawDot = Dot(hitRecord.normal, light->GetDirectionNormalised(hitRecord.hitPoint));
+					if (lambertCosineLawDot < 0)
 						continue; // if dot result is smaller than 0, reflection is pointing away from the light
 
-					FVector3 toLight = -light->GetDirection(hitRecord.hitPoint);
-					float distanceToLight = Magnitude(toLight);
-					Ray hitPointToLight{ hitRecord.hitPoint, toLight / distanceToLight, 0.0001f, distanceToLight + 1.0f };
+
+					// Occlusions
+					Ray hitPointToLight{ hitRecord.hitPoint, lightDirectionNormalized, 0.0001f, distanceToLight };
 					HitRecord lightCheckHitRecord{};
+
 					if (activeScene.Hit(hitPointToLight, lightCheckHitRecord))
 						continue; // if we hit anything there's an obstacle between the hitPoint and the light
 
+
 					totalIrradiance += light->CalculateIrradiance(hitRecord.hitPoint) // Ergb
-						* hitRecord.pMaterial->Shade(hitRecord, light->GetDirection(hitRecord.hitPoint), -ray.direction) // BRDFrgb
-						* lambertCosineDot;
+						* hitRecord.pMaterial->Shade(hitRecord, lightDirectionNormalized, -ray.direction) // BRDFrgb
+						* lambertCosineLawDot;
 				}
 
 				totalIrradiance.MaxToOne();
@@ -94,9 +101,9 @@ void Elite::Renderer::Render()
 			else
 			{
 				m_pBackBufferPixels[col + (row * m_Width)] = SDL_MapRGB(m_pBackBuffer->format,
-					static_cast<uint8_t>(0.f),
-					static_cast<uint8_t>(0.f),
-					static_cast<uint8_t>(0.f));
+					static_cast<uint8_t>(200.f),
+					static_cast<uint8_t>(130.f),
+					static_cast<uint8_t>(130.f));
 			}
 		}
 	}

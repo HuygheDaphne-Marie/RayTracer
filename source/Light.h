@@ -15,6 +15,7 @@ public:
 	virtual ~Light() = default;
 
 	virtual RGBColor CalculateIrradiance(const FPoint3& point) const = 0;
+	virtual FVector3 GetDirectionNormalised(const FPoint3& to) const = 0;
 	virtual FVector3 GetDirection(const FPoint3& to) const = 0;
 
 protected:

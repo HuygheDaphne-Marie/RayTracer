@@ -22,7 +22,7 @@ bool Sphere::Hit(const Ray& ray, HitRecord& hitRecord) const
 	{
 		const float t = (-b - sqrtf(discriminant)) / 2 * a;
 		// HitRecord.t starts at tMax, so by checking if we're smaller than it we check if we're closer and if we're in the interval
-		if (t > ray.tMin && t < hitRecord.t)
+		if (t > ray.tMin && t < hitRecord.t && t < ray.tMax)
 		{
 			hitRecord.t = t;
 			hitRecord.pMaterial = m_pMaterial;

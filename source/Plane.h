@@ -10,7 +10,7 @@ public:
 	bool Hit(const Ray& ray, HitRecord& hitRecord) const override;
 
 	void SetNormal(const FVector3& normal);
-	const FVector3& GetNormal();
+	const FVector3& GetNormal() const;
 
 protected:
 	FVector3 m_Normal;

@@ -17,13 +17,13 @@ RGBColor PBRMaterial::Shade(const HitRecord& hitRecord, const FVector3& incoming
 	const float geometry = BRDF::GeometryFunction_Smith(hitRecord.normal, viewDirection, incomingLightDirection, m_Roughness);
 	const RGBColor specular = (fresnel * normalDistribution * geometry) / (4 * (Dot(viewDirection, hitRecord.normal) * Dot(incomingLightDirection, hitRecord.normal)));
 
-	//if (m_isMetal)
-	//	return specular;
+	if (m_isMetal)
+		return specular;
 
 	//kd
 	const RGBColor diffuseReflectance = (m_isMetal) ? RGBColor{0,0,0} : RGBColor{ 1.f, 1.f, 1.f } - fresnel;
-	const RGBColor lambert = BRDF::Lambert(diffuseReflectance, m_AlbedoColor);
-	return lambert + specular;
+	const RGBColor lambert = BRDF::Lambert(1.f, m_AlbedoColor);
+	return (diffuseReflectance * lambert) + specular;
 }
 
 void PBRMaterial::SetRoughness(float roughness)

@@ -10,7 +10,7 @@ LambertMaterial::LambertMaterial(const RGBColor& color, float diffuseReflectance
 
 RGBColor LambertMaterial::Shade(const HitRecord& hitRecord, const FVector3& incomingLightDirection, const FVector3& viewDirection) const
 {
-	return BRDF::Lambert(RGBColor{ m_DiffuseReflectance, m_DiffuseReflectance, m_DiffuseReflectance }, m_DiffuseColor);
+	return BRDF::Lambert(m_DiffuseReflectance, m_DiffuseColor);
 }
 
 void LambertMaterial::SetColor(const RGBColor& color)

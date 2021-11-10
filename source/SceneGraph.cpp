@@ -14,6 +14,9 @@ SceneGraph::~SceneGraph()
 		delete pLight;
 		pLight = nullptr;
 	}
+
+	delete m_pPerspectiveCamera;
+	m_pPerspectiveCamera = nullptr;
 }
 
 void SceneGraph::AddGeometryToScene(Geometry* pObject)

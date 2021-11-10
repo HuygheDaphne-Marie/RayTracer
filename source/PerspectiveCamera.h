@@ -1,6 +1,8 @@
 #pragma once
 #include "EMath.h"
 
+using namespace Elite;
+
 class PerspectiveCamera
 {
 public:
@@ -8,14 +10,19 @@ public:
 		const float width, 
 		const float height, 
 		const float fieldOfViewAngleDegrees, 
-		const Elite::FPoint3& position
+		const FPoint3& position,
+		int angularSpeedDegrees = 10
 	);
 	~PerspectiveCamera() = default;
 
 	float GetAspectRatio() const;
 	float GetFieldOfView() const;
 
-	const Elite::FMatrix4& GetLookAtMatrix() const;
+	FVector3 GetForward() const;
+	FVector3 GetRight() const;
+	FVector3 GetUp() const;
+
+	const FMatrix4& GetLookAtMatrix() const;
 
 	void Update(float deltaTime);
 
@@ -25,13 +32,15 @@ private:
 	float m_FieldOfViewAngle;
 	float m_FOVScaleFactor;
 
-	Elite::FMatrix4 m_LookAt;
+	FMatrix4 m_LookAt;
+	
+	float m_AngularSpeed;
 
 	void RecalculateFOVScaleFactor();
-	void RecalculateONBMatrix(const Elite::FPoint3& position, const Elite::FVector3& camForward = {0,0,1});
+	void RecalculateONBMatrix(const FPoint3& position, const FVector3& camForward = {0,0,1});
 
-	void Rotate(const Elite::FMatrix4& rotationMatrix);
-	void Translate(const Elite::FVector3& translation);
+	void Rotate(const FMatrix4& rotationMatrix);
+	void Translate(const FVector3& translation);
 
 
 	

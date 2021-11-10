@@ -20,6 +20,7 @@
 #include "Material.h"
 #include "LambertMaterial.h"
 #include "LambertPhongMaterial.h"
+#include "PBRMaterial.h"
 
 void ShutDown(SDL_Window* pWindow)
 {
@@ -58,12 +59,15 @@ int main(int argc, char* args[])
 	SceneGraph& scene = sceneManager.GetActiveScene();
 	scene.InitialiseCamera(width, height, 45.0f, { 0,1,5 });
 
-	LambertMaterial* sphere1Mat = new LambertMaterial{ RGBColor{ 1,0,0 }, 1.0f };
+	
+	PBRMaterial* sphere1Mat = new PBRMaterial{RGBColor{0.5f, 0.5f, 0.5f}, false, 1.0f};
+	PBRMaterial* sphere2Mat = new PBRMaterial{RGBColor{0.5f, 0.5f, 0.5f}, false, 0.1f};
+	//LambertMaterial* sphere1Mat = new LambertMaterial{ RGBColor{ 1,0,0 }, 1.0f };
+	//LambertPhongMaterial* sphere2Mat = new LambertPhongMaterial{ RGBColor{ 0.69f,0.68f,0.25f }, 1.f, 1.f, 60 };
 	LambertMaterial* planeMat = new LambertMaterial{ RGBColor{1,1,0}, 1.0f };
-	LambertPhongMaterial* sphere2phongMat = new LambertPhongMaterial{ RGBColor{ 0.69f,0.68f,0.25f }, 1.f, 1.f, 60 };
 
 	scene.AddGeometryToScene(new Sphere(FPoint3{ -0.75, 1, 0 }, sphere1Mat, 1.f));
-	scene.AddGeometryToScene(new Sphere(FPoint3{ 0.75, 1, 0 }, sphere2phongMat, 1.f));
+	scene.AddGeometryToScene(new Sphere(FPoint3{ 0.75, 1, 0 }, sphere2Mat, 1.f));
 	scene.AddGeometryToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0}, planeMat));
 	
 	scene.AddLightToScene(new PointLight(FPoint3{ 0, 5, -5 }, RGBColor{1,1,1}, 25));

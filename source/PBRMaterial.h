@@ -7,6 +7,8 @@ public:
 
 	RGBColor Shade(const HitRecord& hitRecord, const FVector3& incomingLightDirection, const FVector3& viewDirection) const override;
 
+	void SetRoughness(float roughness);
+
 private:
 	RGBColor m_AlbedoColor;
 	bool m_isMetal;

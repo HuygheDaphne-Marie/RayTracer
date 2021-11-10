@@ -22,7 +22,7 @@ Elite::Renderer::Renderer(SDL_Window * pWindow)
 	m_Width = static_cast<uint32_t>(width);
 	m_Height = static_cast<uint32_t>(height);
 	m_pBackBuffer = SDL_CreateRGBSurface(0, m_Width, m_Height, 32, 0, 0, 0, 0);
-	m_pBackBufferPixels = (uint32_t*)m_pBackBuffer->pixels;
+	m_pBackBufferPixels = static_cast<uint32_t*>(m_pBackBuffer->pixels);
 }
 
 void Elite::Renderer::Render()
@@ -80,7 +80,7 @@ void Elite::Renderer::Render()
 						continue; // if we hit anything there's an obstacle between the hitPoint and the light
 
 					totalIrradiance += light->CalculateIrradiance(hitRecord.hitPoint) // Ergb
-						* hitRecord.pMaterial->Shade(hitRecord, light->GetDirection(hitRecord.hitPoint), ray.direction) // BRDFrgb
+						* hitRecord.pMaterial->Shade(hitRecord, light->GetDirection(hitRecord.hitPoint), -ray.direction) // BRDFrgb
 						* lambertCosineDot;
 				}
 

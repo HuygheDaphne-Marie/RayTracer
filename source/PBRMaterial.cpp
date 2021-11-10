@@ -4,8 +4,9 @@
 PBRMaterial::PBRMaterial(const RGBColor& albedoColor, bool isMetal, float roughness)
 	: m_AlbedoColor(albedoColor)
 	, m_isMetal(isMetal)
-	, m_Roughness(roughness)
+	, m_Roughness(0.01f)
 {
+	SetRoughness(roughness);
 }
 
 RGBColor PBRMaterial::Shade(const HitRecord& hitRecord, const FVector3& incomingLightDirection, const FVector3& viewDirection) const
@@ -23,6 +24,23 @@ RGBColor PBRMaterial::Shade(const HitRecord& hitRecord, const FVector3& incoming
 	const RGBColor diffuseReflectance = (m_isMetal) ? RGBColor{0,0,0} : RGBColor{ 1.f, 1.f, 1.f } - fresnel;
 	const RGBColor lambert = BRDF::Lambert(diffuseReflectance, m_AlbedoColor);
 	return lambert + specular;
+}
+
+void PBRMaterial::SetRoughness(float roughness)
+{
+	if (roughness < 0.01f)
+	{
+		m_Roughness = 0.01f;
+		return;
+	}
+	if (roughness > 1.0f)
+	{
+		m_Roughness = 1.0f;
+		return;
+	}
+
+	m_Roughness = roughness;
+
 }
 
 RGBColor PBRMaterial::GetBaseReflectivity() const

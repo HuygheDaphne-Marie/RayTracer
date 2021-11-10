@@ -1,10 +1,10 @@
-﻿  LambertPhongMaterial.cpp
+﻿  main.cpp
   Generating code
-  24 of 314 functions ( 7.6%) were compiled, the rest were copied from previous compilation.
-    3 functions were new in current compilation
-    23 functions had inline decision re-evaluated but remain unchanged
+  16 of 322 functions ( 5.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  RayTracer.vcxproj -> D:\Documents\School\DAE\Semester 3.5\Graphics Programming 1\RayTracer\bin\Release\RayTracer.exe
+  RayTracer.vcxproj -> D:\Documents\School\DAE\Semester 3.5\Graphics Programming 1\Raytracer\bin\Release\RayTracer.exe
   0 File(s) copied
   File not found - vld_x64.dll
   0 File(s) copied

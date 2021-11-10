@@ -1,22 +1,24 @@
 #include "Plane.h"
 
-Plane::Plane(const Elite::FPoint3& position, const Elite::FVector3& normal, Material* pMaterial)
-	: Geometry(position, pMaterial)
-	, m_Normal{ Elite::GetNormalized(normal) }
+#include <utility>
+
+Plane::Plane(const FPoint3& position, const FVector3& normal, std::shared_ptr<Material> pMaterial)
+	: Geometry(position, std::move(pMaterial))
+	, m_Normal{ GetNormalized(normal) }
 {
 }
 
 bool Plane::Hit(const Ray& ray, HitRecord& hitRecord) const
 {
-	const float t = Elite::Dot((m_Position - ray.origin), m_Normal) / Elite::Dot(ray.direction, m_Normal);
+	const float t = Dot((m_Position - ray.origin), m_Normal) / Dot(ray.direction, m_Normal);
 	if (t > hitRecord.t || t < ray.tMin)
 	{
 		return false;
 	}
 
-	//const Elite::FPoint3 intersectPoint{ray.origin + ray.direction * t};
-	//const Elite::FVector3 toIntersectPoint{ intersectPoint - m_Position };
-	//const float dotResult{ Elite::Dot(toIntersectPoint, m_Normal) };
+	//const FPoint3 intersectPoint{ray.origin + ray.direction * t};
+	//const FVector3 toIntersectPoint{ intersectPoint - m_Position };
+	//const float dotResult{ Dot(toIntersectPoint, m_Normal) };
 	//if (-0.0001f < dotResult || dotResult < 0.0001f)
 	//{
 		hitRecord.t = t;
@@ -28,11 +30,11 @@ bool Plane::Hit(const Ray& ray, HitRecord& hitRecord) const
 	//return false;
 }
 
-void Plane::SetNormal(const Elite::FVector3& normal)
+void Plane::SetNormal(const FVector3& normal)
 {
-	m_Normal = Elite::GetNormalized(normal);
+	m_Normal = GetNormalized(normal);
 }
-const Elite::FVector3& Plane::GetNormal()
+const FVector3& Plane::GetNormal()
 {
 	return m_Normal;
 }

@@ -4,15 +4,15 @@
 class Plane final : public Geometry
 {
 public:
-	Plane(const Elite::FPoint3& position, const Elite::FVector3& normal, Material* pMaterial);
+	Plane(const FPoint3& position, const FVector3& normal, std::shared_ptr<Material> pMaterial);
 	~Plane() override = default;
 
-	virtual bool Hit(const Ray& ray, HitRecord& hitRecord) const override;
+	bool Hit(const Ray& ray, HitRecord& hitRecord) const override;
 
-	void SetNormal(const Elite::FVector3& normal);
-	const Elite::FVector3& GetNormal();
+	void SetNormal(const FVector3& normal);
+	const FVector3& GetNormal();
 
 protected:
-	Elite::FVector3 m_Normal;
+	FVector3 m_Normal;
 };
 

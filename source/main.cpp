@@ -60,11 +60,11 @@ int main(int argc, char* args[])
 	scene.InitialiseCamera(width, height, 45.0f, { 0,1,5 });
 
 	
-	PBRMaterial* sphere1Mat = new PBRMaterial{RGBColor{0.5f, 0.5f, 0.5f}, false, 1.0f};
-	PBRMaterial* sphere2Mat = new PBRMaterial{RGBColor{0.5f, 0.5f, 0.5f}, false, 0.1f};
+	std::shared_ptr<PBRMaterial> sphere1Mat = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, false, 1.0f });
+	std::shared_ptr<PBRMaterial> sphere2Mat = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.5f, 0.5f, 0.5f}, false, 0.1f });
 	//LambertMaterial* sphere1Mat = new LambertMaterial{ RGBColor{ 1,0,0 }, 1.0f };
 	//LambertPhongMaterial* sphere2Mat = new LambertPhongMaterial{ RGBColor{ 0.69f,0.68f,0.25f }, 1.f, 1.f, 60 };
-	LambertMaterial* planeMat = new LambertMaterial{ RGBColor{1,1,0}, 1.0f };
+	std::shared_ptr<LambertMaterial> planeMat = std::make_shared<LambertMaterial>(LambertMaterial{ RGBColor{1,1,0}, 1.0f });
 
 	scene.AddGeometryToScene(new Sphere(FPoint3{ -0.75, 1, 0 }, sphere1Mat, 1.f));
 	scene.AddGeometryToScene(new Sphere(FPoint3{ 0.75, 1, 0 }, sphere2Mat, 1.f));

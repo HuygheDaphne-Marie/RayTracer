@@ -11,6 +11,7 @@
 #include "MathHelper.h"
 #include "SceneManager.h"
 #include "PerspectiveCamera.h"
+#include "Material.h"
 
 Elite::Renderer::Renderer(SDL_Window * pWindow)
 {

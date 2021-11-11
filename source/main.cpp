@@ -67,7 +67,7 @@ int main(int argc, char* args[])
 		const std::shared_ptr<PBRMaterial> PBR_SmoothMetal = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.972f, 0.960f, 0.915f}, true, 0.1f });
 
 		const std::shared_ptr<PBRMaterial> PBR_RoughPlastic = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.75f, 0.75f, 0.75f}, false, 1.0f });
-		const std::shared_ptr<PBRMaterial> PBR_MediumPlastic = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.75f, 0.75f, 0.75f}, false, 0.6f });
+		const std::shared_ptr<PBRMaterial> PBR_MediumPlastic = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.75f, 0.75f, 0.75f}, false, 0.4f });
 		const std::shared_ptr<PBRMaterial> PBR_SmoothPlastic = std::make_shared<PBRMaterial>(PBRMaterial{ RGBColor{0.75f, 0.75f, 0.75f}, false, 0.1f });
 
 		const std::shared_ptr<LambertMaterial> Lambert_GreyBlue = std::make_shared<LambertMaterial>(RGBColor{ 0.49f, 0.57f, 0.57f }, 1.f);

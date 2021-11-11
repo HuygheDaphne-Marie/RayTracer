@@ -141,8 +141,16 @@ void PerspectiveCamera::HandleRotation(MouseInput mouseInput, float deltaTime)
 
 	if (mouseInput.y != 0 && isRightPressed && !(isLeftPressed)) // Pitch (up - down)
 	{
-		const FMatrix3 rotation = MakeRotationX((-m_AngularSpeed * static_cast<float>(mouseInput.y)));
-		Rotate(rotation);
+		if (Dot(FVector3{0, 0, -1}, GetForward()) > 0.f) // Need to invert the pitch since otherwise it changes when you look back
+		{
+			const FMatrix3 rotation = MakeRotationX((m_AngularSpeed * static_cast<float>(mouseInput.y)));
+			Rotate(rotation);
+		}
+		else
+		{
+			const FMatrix3 rotation = MakeRotationX((-m_AngularSpeed * static_cast<float>(mouseInput.y)));
+			Rotate(rotation);
+		}
 	}
 }
 

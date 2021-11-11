@@ -145,6 +145,9 @@
     <ClInclude Include="Triangle.h">
       <Filter>Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="TriangleMesh.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ERenderer.cpp">
@@ -194,6 +197,9 @@
       <Filter>Materials</Filter>
     </ClCompile>
     <ClCompile Include="Triangle.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangleMesh.cpp">
       <Filter>Geometry</Filter>
     </ClCompile>
   </ItemGroup>

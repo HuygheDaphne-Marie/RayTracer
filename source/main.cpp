@@ -15,6 +15,7 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "Triangle.h"
+#include "TriangleMesh.h"
 #include "PerspectiveCamera.h"
 #include "PointLight.h"
 
@@ -122,6 +123,7 @@ int main(int argc, char* args[])
 
 		// Materials
 		const std::shared_ptr<LambertMaterial> Lambert_GreyBlue = std::make_shared<LambertMaterial>(RGBColor{ 0.49f, 0.57f, 0.57f }, 1.f);
+		const std::shared_ptr<LambertMaterial> Lambert_White = std::make_shared<LambertMaterial>(RGBColor{ 1.f, 1.f, 1.f }, 1.f);
 
 		// Planes
 		scene.AddGeometryToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0 }, Lambert_GreyBlue));
@@ -130,14 +132,16 @@ int main(int argc, char* args[])
 		scene.AddGeometryToScene(new Plane(FPoint3{ 5, 0, 0 }, FVector3{ -1, 0, 0 }, Lambert_GreyBlue));
 		scene.AddGeometryToScene(new Plane(FPoint3{ -5, 0, 0 }, FVector3{ 1, 0, 0 }, Lambert_GreyBlue));
 
-		std::vector<FPoint3> vertexBuffer
+		const std::vector<FPoint3> vertexBuffer
 		{
 			FPoint3(-.75, 1.5, 0),
 			FPoint3(-.75, 0, 0),
 			FPoint3(.75, 0, 0),
 			FPoint3(.75, 1.5, 1)
 		};
-		std::vector<unsigned int> indexBuffer{ 0, 1, 2, 0, 2, 3 };
+		const std::vector<unsigned int> indexBuffer{ 0, 1, 2, 0, 2, 3 };
+
+		scene.AddGeometryToScene(new TriangleMesh(FPoint3{ 0, 2, 0 }, Lambert_White, vertexBuffer, indexBuffer, CullingMode::None));
 
 		// Lights
 		scene.AddLightToScene(new PointLight(FPoint3{ 0, 5, -5 }, RGBColor{ 1,.61f,.45f }, 50));

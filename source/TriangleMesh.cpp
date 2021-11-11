@@ -16,7 +16,7 @@ TriangleMesh::TriangleMesh(const FPoint3& position, const std::shared_ptr<Materi
 bool TriangleMesh::Hit(const Ray& ray, HitRecord& hitRecord) const
 {
 	bool hasHit = false;
-	HitRecord lastHit{};
+	//HitRecord lastHit{}; // todo: breaks things
 
 	for (const Triangle& triangle : m_Triangles)
 	{
@@ -31,11 +31,11 @@ bool TriangleMesh::Hit(const Ray& ray, HitRecord& hitRecord) const
 
 			// In case we hit something behind the origin, there might be closer hit
 			hasHit = true;
-			lastHit = hitRecord;
+			//lastHit = hitRecord; // todo: breaks things 
 		}
 	}
 
-	hitRecord = lastHit;
+	//hitRecord = lastHit; // todo: breaks things
 	return hasHit;
 }
 
@@ -49,9 +49,9 @@ void TriangleMesh::CreateTriangles()
 	for (int i{0}; i < m_IndexBuffer.size(); i += 3)
 	{
 		m_Triangles.emplace_back(m_Position, m_pMaterial,
-			m_VerticesBuffer[i],
-			m_VerticesBuffer[i + 1],
-			m_VerticesBuffer[i + 2],
+			m_VerticesBuffer[m_IndexBuffer[i]],
+			m_VerticesBuffer[m_IndexBuffer[i + 1]],
+			m_VerticesBuffer[m_IndexBuffer[i + 2]],
 			m_CullingMode);
 	}
 }

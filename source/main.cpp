@@ -14,6 +14,7 @@
 #include "SceneManager.h"
 #include "Sphere.h"
 #include "Plane.h"
+#include "Triangle.h"
 #include "PerspectiveCamera.h"
 #include "PointLight.h"
 
@@ -83,6 +84,23 @@ int main(int argc, char* args[])
 		scene.AddGeometryToScene(new Sphere(FPoint3{ -1.75f, 3.f, 0.f }, PBR_RoughPlastic, 0.75f));
 		scene.AddGeometryToScene(new Sphere(FPoint3{ 0.f, 3.f, 0.f }, PBR_MediumPlastic, 0.75f));
 		scene.AddGeometryToScene(new Sphere(FPoint3{ 1.75f, 3.f, 0.f }, PBR_SmoothPlastic, 0.75f));
+
+		// Triangles
+		scene.AddGeometryToScene(new Triangle(FPoint3{ -1.75f, 4.5f, 0.f }, Lambert_White,
+			FPoint3{ -.75f, 1.5f, 0.f }, 
+			FPoint3{ -.75f, 0.f, 0.f }, 
+			FPoint3{ 0.75f, 0.f, 0.f }, 
+			CullingMode::Back));
+		scene.AddGeometryToScene(new Triangle(FPoint3{ 0.f, 4.5f, 0.f }, Lambert_White,
+			FPoint3{ -.75f, 1.5f, 0.f },
+			FPoint3{ -.75f, 0.f, 0.f },
+			FPoint3{ 0.75f, 0.f, 0.f },
+			CullingMode::Front));
+		scene.AddGeometryToScene(new Triangle(FPoint3{ 1.75f, 4.5f, 0.f }, Lambert_White,
+			FPoint3{ -.75f, 1.5f, 0.f },
+			FPoint3{ -.75f, 0.f, 0.f },
+			FPoint3{ 0.75f, 0.f, 0.f },
+			CullingMode::None));
 
 		// Planes
 		scene.AddGeometryToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0 }, Lambert_GreyBlue));

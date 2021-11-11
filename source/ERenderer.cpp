@@ -79,17 +79,30 @@ void Elite::Renderer::Render()
 						continue; // if dot result is smaller than 0, reflection is pointing away from the light
 
 
-					// Occlusions
-					Ray hitPointToLight{ hitRecord.hitPoint, lightDirectionNormalized, 0.0001f, distanceToLight };
-					HitRecord lightCheckHitRecord{};
+					if (m_CastShadows)
+					{
+						// Occlusions
+						Ray hitPointToLight{ hitRecord.hitPoint, lightDirectionNormalized, 0.0001f, distanceToLight };
+						HitRecord lightCheckHitRecord{};
+						if (activeScene.Hit(hitPointToLight, lightCheckHitRecord))
+							continue; // if we hit anything there's an obstacle between the hitPoint and the light
+					}
 
-					if (activeScene.Hit(hitPointToLight, lightCheckHitRecord))
-						continue; // if we hit anything there's an obstacle between the hitPoint and the light
-
-
-					totalIrradiance += light->CalculateIrradiance(hitRecord.hitPoint) // Ergb
-						* hitRecord.pMaterial->Shade(hitRecord, lightDirectionNormalized, -ray.direction) // BRDFrgb
-						* lambertCosineLawDot;
+					switch (m_LightEquationTerms)
+					{
+					case LightEquationTerms::irradianceOnly:
+						totalIrradiance += light->CalculateIrradiance(hitRecord.hitPoint)
+							* lambertCosineLawDot;
+						break;
+					case LightEquationTerms::BRDFOnly:
+						totalIrradiance += hitRecord.pMaterial->Shade(hitRecord, lightDirectionNormalized, -ray.direction)
+							* lambertCosineLawDot;
+						break;
+					default: 
+						totalIrradiance += light->CalculateIrradiance(hitRecord.hitPoint) // Ergb
+							* hitRecord.pMaterial->Shade(hitRecord, lightDirectionNormalized, -ray.direction) // BRDFrgb
+							* lambertCosineLawDot;
+					}
 				}
 
 				totalIrradiance.MaxToOne();
@@ -116,4 +129,18 @@ void Elite::Renderer::Render()
 bool Elite::Renderer::SaveBackbufferToImage() const
 {
 	return SDL_SaveBMP(m_pBackBuffer, "BackbufferRender.bmp");
+}
+
+void Renderer::ToggleCastShadows()
+{
+	m_CastShadows = !m_CastShadows;
+}
+
+void Renderer::ToggleLightEquationTerms()
+{
+	int settingAsInt = static_cast<int>(m_LightEquationTerms);
+	constexpr int lastOption = static_cast<int>(LightEquationTerms::LAST);
+
+	settingAsInt = (settingAsInt + 1) % lastOption; // 0 - 1 - 2
+	m_LightEquationTerms = static_cast<LightEquationTerms>(settingAsInt);
 }

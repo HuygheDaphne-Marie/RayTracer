@@ -31,13 +31,27 @@ namespace Elite
 		void Render();
 		bool SaveBackbufferToImage() const;
 
+		void ToggleCastShadows();
+		void ToggleLightEquationTerms();
+
 	private:
+		enum class LightEquationTerms
+		{
+			both = 0,
+			irradianceOnly = 1,
+			BRDFOnly = 2,
+			LAST = 3
+		};
+
 		SDL_Window* m_pWindow = nullptr;
 		SDL_Surface* m_pFrontBuffer = nullptr;
 		SDL_Surface* m_pBackBuffer = nullptr;
 		uint32_t* m_pBackBufferPixels = nullptr;
 		uint32_t m_Width = 0;
 		uint32_t m_Height = 0;
+
+		bool m_CastShadows = true;
+		LightEquationTerms m_LightEquationTerms = LightEquationTerms::both;
 	};
 }
 

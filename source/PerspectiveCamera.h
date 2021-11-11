@@ -1,4 +1,6 @@
 #pragma once
+#include <SDL_stdinc.h>
+
 #include "EMath.h"
 
 using namespace Elite;
@@ -11,7 +13,7 @@ public:
 		const float height, 
 		const float fieldOfViewAngleDegrees, 
 		const FPoint3& position,
-		int angularSpeedDegrees = 10
+		float angularSpeedDegrees = 1.f
 	);
 	~PerspectiveCamera() = default;
 
@@ -27,6 +29,13 @@ public:
 	void Update(float deltaTime);
 
 private:
+	struct MouseInput
+	{
+		Uint32 mouseButtons;
+		int x;
+		int y;
+	};
+
 	const float m_AspectRatio; // Can theoretically change but not for our purposes
 
 	float m_FieldOfViewAngle;
@@ -42,7 +51,8 @@ private:
 	void Rotate(const FMatrix4& rotationMatrix);
 	void Translate(const FVector3& translation);
 
-
+	void HandleMovement(MouseInput mouseInput, float deltaTime);
+	void HandleRotation(MouseInput mouseInput, float deltaTime);
 	
 };
 

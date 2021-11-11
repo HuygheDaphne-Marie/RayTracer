@@ -15,7 +15,7 @@ public:
 	virtual bool Hit(const Ray& ray, HitRecord& hitRecord) const = 0;
 
 	void SetPosition(const FPoint3& position);
-	const FPoint3& GetPosition();
+	const FPoint3& GetPosition() const;
 
 	void SetMaterial(std::shared_ptr<Material> pMaterial);
 	std::shared_ptr<Material> GetMaterial() const;

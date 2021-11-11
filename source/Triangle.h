@@ -21,8 +21,8 @@ private:
 	const FVector3 m_Normal;
 	const CullingMode m_CullingMode;
 
-	const FPoint3 m_Vertex0;
-	const FPoint3 m_Vertex1;
-	const FPoint3 m_Vertex2;
+	const FPoint3& m_Vertex0;
+	const FPoint3& m_Vertex1;
+	const FPoint3& m_Vertex2;
 };
 

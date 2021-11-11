@@ -17,6 +17,11 @@ class SceneGraph final
 {
 public:
 	SceneGraph() = default;
+	// Todo: fix this
+	//SceneGraph(const SceneGraph& other);
+	//SceneGraph(SceneGraph&& other);
+	//SceneGraph& operator=(const SceneGraph& other);
+	//SceneGraph& operator=(SceneGraph&& other);
 	~SceneGraph();
 
 	bool Hit(const Ray& ray, HitRecord& hitRecord) const;

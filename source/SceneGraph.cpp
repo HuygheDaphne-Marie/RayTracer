@@ -1,6 +1,5 @@
 #include "SceneGraph.h"
 
-
 SceneGraph::~SceneGraph()
 {
 	for (Geometry* pGeometry : m_pGeometries)

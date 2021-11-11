@@ -42,10 +42,6 @@ bool Triangle::Hit(const Ray& ray, HitRecord& hitRecord) const
 		(vertex0.z + vertex1.z + vertex2.z) / 3.f
 	};
 
-	//center.x += m_Position.x;
-	//center.y += m_Position.y;
-	//center.z += m_Position.z;
-
 	const float t = Dot((center - ray.origin), m_Normal) / Dot(ray.direction, m_Normal);
 	if (t < ray.tMin || t > ray.tMax || t > hitRecord.t)
 		return false;

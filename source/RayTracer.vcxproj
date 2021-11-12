@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="Face.h" />
     <ClInclude Include="OBJReader.h" />
     <ClInclude Include="PBRMaterial.h" />
     <ClInclude Include="Singleton.h" />

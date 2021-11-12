@@ -118,7 +118,8 @@ int main(int argc, char* args[])
 		PBRScene.AddLightToScene(new PointLight(FPoint3{ 2.5f, 2.5f, 5.f }, RGBColor{ .34f, .47f, .68f }, 50));
 	}
 
-	
+	// DO NOT DELETE
+	TriangleMesh* pBunny{ nullptr }; // ugly way of updating, but will do for now
 	{
 		SceneGraph& scene = sceneManager.AddNewScene();
 		scene.InitialiseCamera(width, height, 45.0f, { 0, 3, 9 });
@@ -134,21 +135,9 @@ int main(int argc, char* args[])
 		scene.AddGeometryToScene(new Plane(FPoint3{ 5, 0, 0 }, FVector3{ -1, 0, 0 }, Lambert_GreyBlue));
 		scene.AddGeometryToScene(new Plane(FPoint3{ -5, 0, 0 }, FVector3{ 1, 0, 0 }, Lambert_GreyBlue));
 
-		std::vector<FPoint3> vertexBuffer
-		{
-			//FPoint3(-.75, 1.5, 0),
-			//FPoint3(-.75, 0, 0),
-			//FPoint3(.75, 0, 0),
-			//FPoint3(.75, 1.5, 1)
-		};
-		std::vector<unsigned int> indexBuffer
-		{
-			//0, 1, 2, 0, 2, 3
-		};
-
-		OBJReader::GetInstance().ReadOBJ("lowpoly_bunny.obj", vertexBuffer, indexBuffer);
-
-		scene.AddGeometryToScene(new TriangleMesh(FPoint3{ 0, 2, 0 }, Lambert_White, vertexBuffer, indexBuffer, CullingMode::None));
+		const FVector3 bunnyForward{ 0, 0, 1 };
+		pBunny = new TriangleMesh(FPoint3{ 0, 0, 0 }, Lambert_White, bunnyForward, "lowpoly_bunny.obj", CullingMode::None);
+		scene.AddGeometryToScene(pBunny);
 
 		// Lights
 		scene.AddLightToScene(new PointLight(FPoint3{ 0, 5, -5 }, RGBColor{ 1,.61f,.45f }, 50));
@@ -156,8 +145,8 @@ int main(int argc, char* args[])
 		scene.AddLightToScene(new PointLight(FPoint3{ 2.5f, 2.5f, 5.f }, RGBColor{ .34f, .47f, .68f }, 50));
 	}
 
-	sceneManager.GotoNextScene();
-	
+	//sceneManager.GotoNextScene();
+	bool isBunnyActive = false;
 
 	//Start loop
 	pTimer->Start();
@@ -182,11 +171,21 @@ int main(int argc, char* args[])
 					pRenderer->ToggleCastShadows();
 				if (e.key.keysym.scancode == SDL_SCANCODE_E)
 					pRenderer->ToggleLightEquationTerms();
+				if (e.key.keysym.scancode == SDL_SCANCODE_KP_PLUS)
+				{
+					sceneManager.GotoNextScene();
+					isBunnyActive = !isBunnyActive;
+				}
+
 				break;
 			}
 		}
 		// Update Camera
 		sceneManager.GetActiveScene().GetCamera()->Update(pTimer->GetElapsed());
+		if (isBunnyActive)
+		{
+			pBunny->Rotate(pTimer->GetElapsed());
+		}
 
 		//--------- Render ---------
 		pRenderer->Render();

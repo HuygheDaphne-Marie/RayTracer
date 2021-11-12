@@ -4,7 +4,7 @@
 #include <regex>
 #include <sstream>
 
-void OBJReader::ReadOBJ(const std::string& filePath, std::vector<Elite::FPoint3>& vertices, std::vector<unsigned int>& faces) const
+void OBJReader::ReadOBJ(const std::string& filePath, std::vector<Elite::FPoint3>& vertices, std::vector<Face>& faces) const
 {
 	std::ifstream file;
 	file.open(filePath);
@@ -36,12 +36,12 @@ void OBJReader::ReadOBJ(const std::string& filePath, std::vector<Elite::FPoint3>
 			else if(line[0] == 'f')
 			{
 				std::regex_search(line, matches, faceIndexCapture);
-				unsigned int v0Index = std::stoi(matches[1]);
-				unsigned int v1Index = std::stoi(matches[2]);
-				unsigned int v2Index = std::stoi(matches[3]);
-				faces.push_back(v0Index - 1);
-				faces.push_back(v1Index - 1);
-				faces.push_back(v2Index - 1);
+
+				Face face{};
+				face.verticesIndex[0] = std::stoi(matches[1]) - 1;
+				face.verticesIndex[1] = std::stoi(matches[2]) - 1;
+				face.verticesIndex[2] = std::stoi(matches[3]) - 1;
+				faces.push_back(face);
 			}
 		}
 	}

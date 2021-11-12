@@ -154,6 +154,9 @@
     <ClInclude Include="OBJReader.h">
       <Filter>OBJReader</Filter>
     </ClInclude>
+    <ClInclude Include="Face.h">
+      <Filter>OBJReader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ERenderer.cpp">

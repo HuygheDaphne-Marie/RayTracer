@@ -120,7 +120,7 @@ void TriangleMesh::RecalculateTransformation()
 
 	for (Face& face : m_Faces)
 	{
-		face.transformedNormal = GetNormalized(FVector3{ m_Transform * FVector4{face.normal, 0} });
+		face.transformedNormal = FVector3{ m_Transform * FVector4{face.normal, 0} };
 	}
 }
 

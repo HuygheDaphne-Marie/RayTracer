@@ -59,6 +59,10 @@ int main(int argc, char* args[])
 	Timer* pTimer = new Timer();
 	Renderer* pRenderer = new Renderer(pWindow);
 
+	// DO NOT DELETE
+	Triangle* triangle1{ nullptr };
+	Triangle* triangle2{ nullptr };
+	Triangle* triangle3{ nullptr };
 	//Initialize Scenes
 	{
 		// Spheres PRBMaterial Scene
@@ -88,22 +92,25 @@ int main(int argc, char* args[])
 		PBRScene.AddGeometryToScene(new Sphere(FPoint3{ 0.f, 3.f, 0.f }, PBR_MediumPlastic, 0.75f));
 		PBRScene.AddGeometryToScene(new Sphere(FPoint3{ 1.75f, 3.f, 0.f }, PBR_SmoothPlastic, 0.75f));
 
+		triangle1 = new Triangle(FPoint3{ -1.75f, 4.5f, 0.f }, Lambert_White,
+			FPoint3{ -.75f, 1.5f, 0.f },
+			FPoint3{ -.75f, 0.f, 0.f },
+			FPoint3{ 0.75f, 0.f, 0.f },
+			CullingMode::Back);
+		triangle2 = new Triangle(FPoint3{ 0.f, 4.5f, 0.f }, Lambert_White,
+			FPoint3{ -.75f, 1.5f, 0.f },
+			FPoint3{ -.75f, 0.f, 0.f },
+			FPoint3{ 0.75f, 0.f, 0.f },
+			CullingMode::Front);
+		triangle3 = new Triangle(FPoint3{ 1.75f, 4.5f, 0.f }, Lambert_White,
+			FPoint3{ -.75f, 1.5f, 0.f },
+			FPoint3{ -.75f, 0.f, 0.f },
+			FPoint3{ 0.75f, 0.f, 0.f },
+			CullingMode::None);
 		// Triangles
-		PBRScene.AddGeometryToScene(new Triangle(FPoint3{ -1.75f, 4.5f, 0.f }, Lambert_White,
-			FPoint3{ -.75f, 1.5f, 0.f }, 
-			FPoint3{ -.75f, 0.f, 0.f }, 
-			FPoint3{ 0.75f, 0.f, 0.f }, 
-			CullingMode::Back));
-		PBRScene.AddGeometryToScene(new Triangle(FPoint3{ 0.f, 4.5f, 0.f }, Lambert_White,
-			FPoint3{ -.75f, 1.5f, 0.f },
-			FPoint3{ -.75f, 0.f, 0.f },
-			FPoint3{ 0.75f, 0.f, 0.f },
-			CullingMode::Front));
-		PBRScene.AddGeometryToScene(new Triangle(FPoint3{ 1.75f, 4.5f, 0.f }, Lambert_White,
-			FPoint3{ -.75f, 1.5f, 0.f },
-			FPoint3{ -.75f, 0.f, 0.f },
-			FPoint3{ 0.75f, 0.f, 0.f },
-			CullingMode::None));
+		PBRScene.AddGeometryToScene(triangle1);
+		PBRScene.AddGeometryToScene(triangle2);
+		PBRScene.AddGeometryToScene(triangle3);
 
 		// Planes
 		PBRScene.AddGeometryToScene(new Plane(FPoint3{ 0, 0, 0 }, FVector3{ 0, 1, 0 }, Lambert_GreyBlue));
@@ -171,7 +178,7 @@ int main(int argc, char* args[])
 					pRenderer->ToggleCastShadows();
 				if (e.key.keysym.scancode == SDL_SCANCODE_E)
 					pRenderer->ToggleLightEquationTerms();
-				if (e.key.keysym.scancode == SDL_SCANCODE_KP_PLUS)
+				if (e.key.keysym.scancode == SDL_SCANCODE_KP_PLUS || e.key.keysym.scancode == SDL_SCANCODE_N)
 				{
 					sceneManager.GotoNextScene();
 					isBunnyActive = !isBunnyActive;
@@ -182,9 +189,17 @@ int main(int argc, char* args[])
 		}
 		// Update Camera
 		sceneManager.GetActiveScene().GetCamera()->Update(pTimer->GetElapsed());
+
+		// Hardcoded updates, would be better with an update function for a scene which is customizable
 		if (isBunnyActive)
 		{
 			pBunny->Rotate(pTimer->GetElapsed());
+		}
+		else
+		{
+			triangle1->UpdateRotation(pTimer->GetTotal());
+			triangle2->UpdateRotation(pTimer->GetTotal());
+			triangle3->UpdateRotation(pTimer->GetTotal());
 		}
 
 		//--------- Render ---------

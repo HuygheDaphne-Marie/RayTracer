@@ -32,6 +32,9 @@
     <Filter Include="Singleton">
       <UniqueIdentifier>{8bec4bf7-28a5-48a7-9fa6-82ad475f83fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OBJReader">
+      <UniqueIdentifier>{61dce996-4735-459d-bf38-315321ac4171}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="RayTracer.props" />
@@ -148,6 +151,9 @@
     <ClInclude Include="TriangleMesh.h">
       <Filter>Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="OBJReader.h">
+      <Filter>OBJReader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ERenderer.cpp">
@@ -201,6 +207,9 @@
     </ClCompile>
     <ClCompile Include="TriangleMesh.cpp">
       <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="OBJReader.cpp">
+      <Filter>OBJReader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

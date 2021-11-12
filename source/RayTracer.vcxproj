@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="OBJReader.h" />
     <ClInclude Include="PBRMaterial.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="LambertPhongMaterial.h" />
@@ -119,6 +120,7 @@
     <ClCompile Include="LambertPhongMaterial.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="OBJReader.cpp" />
     <ClCompile Include="PBRMaterial.cpp" />
     <ClCompile Include="PerspectiveCamera.cpp" />
     <ClCompile Include="ERenderer.cpp" />

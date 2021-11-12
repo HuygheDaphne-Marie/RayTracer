@@ -24,6 +24,8 @@
 #include "LambertPhongMaterial.h"
 #include "PBRMaterial.h"
 
+#include "OBJReader.h"
+
 void ShutDown(SDL_Window* pWindow)
 {
 	SDL_DestroyWindow(pWindow);
@@ -132,14 +134,19 @@ int main(int argc, char* args[])
 		scene.AddGeometryToScene(new Plane(FPoint3{ 5, 0, 0 }, FVector3{ -1, 0, 0 }, Lambert_GreyBlue));
 		scene.AddGeometryToScene(new Plane(FPoint3{ -5, 0, 0 }, FVector3{ 1, 0, 0 }, Lambert_GreyBlue));
 
-		const std::vector<FPoint3> vertexBuffer
+		std::vector<FPoint3> vertexBuffer
 		{
-			FPoint3(-.75, 1.5, 0),
-			FPoint3(-.75, 0, 0),
-			FPoint3(.75, 0, 0),
-			FPoint3(.75, 1.5, 1)
+			//FPoint3(-.75, 1.5, 0),
+			//FPoint3(-.75, 0, 0),
+			//FPoint3(.75, 0, 0),
+			//FPoint3(.75, 1.5, 1)
 		};
-		const std::vector<unsigned int> indexBuffer{ 0, 1, 2, 0, 2, 3 };
+		std::vector<unsigned int> indexBuffer
+		{
+			//0, 1, 2, 0, 2, 3
+		};
+
+		OBJReader::GetInstance().ReadOBJ("lowpoly_bunny.obj", vertexBuffer, indexBuffer);
 
 		scene.AddGeometryToScene(new TriangleMesh(FPoint3{ 0, 2, 0 }, Lambert_White, vertexBuffer, indexBuffer, CullingMode::None));
 

@@ -68,6 +68,10 @@ bool Triangle::Hit(const Ray& ray, HitRecord& hitRecord) const
 	hitRecord.hitPoint = intersectPoint;
 	hitRecord.pMaterial = m_pMaterial;
 	hitRecord.normal = m_Normal; // might need to worry about this with culling..
+	if (dotNormalView > 0) // turn normal to camera, so triangles aren't black
+	{
+		hitRecord.normal *= -1;
+	}
 
 	return true;
 }
